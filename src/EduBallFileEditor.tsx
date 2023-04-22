@@ -7,7 +7,7 @@ import { generateTxtFile } from "./generateTxtFile";
 import { IConfig, IQuestions, toggleDirections } from "./interfaces";
 import { Container } from "@mui/material";
 
-export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
+export function EduBallFileEditor({ selectedFile, setSelectedFile, loadedConfig, setLoadedConfig }: { selectedFile: any, setSelectedFile: Function, loadedConfig: IConfig, setLoadedConfig: Function }) {
   const [questions, setQuestions] = useState<IQuestions[]>(
     loadedConfig.questions
   );
@@ -15,6 +15,35 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
   const [teamBlue, setTeamBlue] = useState<string[]>(
     loadedConfig.students.blue
   );
+
+  function reloadFile() {
+      try {
+        selectedFile.text().then((x: string) => setLoadedConfig(parseConfig(x)));
+      } catch (log) {
+          alert("Ein fehler beim lesen der Datei ist eingetreten. Bitte geben sie das an einen IT-Experten ihres vertrauens: " + log);
+      }
+  }
+
+  function parseConfig(input: string) {
+      const regex: RegExp = /(((?:fr*a*g*e*:)+)(?<q>[\n!?.a-z0-9: ]*?)(?:an*t*w*o*r*t*:)(?<a>[\n!?.a-z0-9 ]*?))(?:(?=\2)|$)/gi
+      const matches = input.matchAll(regex); 
+      let x;
+      let allQuestions = [];
+      while (true) {
+          x = matches.next();
+          if (x.done === true) {
+              break;
+          }
+          allQuestions.push(x.value.groups);
+      }
+      //TODO
+      // setLoadedConfig((baseState) => {
+      //     const nextState = produce(baseState, (draftState) => {draftState.questions = allQuestions});
+      //     return nextState
+      //         });
+      console.log(allQuestions)
+
+  }
 
   function deleteStudent(teamSetter: Function) {
     return function (index: number) {
@@ -106,6 +135,9 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
   return (
     <Container>
       <button onClick={() => generateTxtFile(teamBlue, teamRed, questions)}>
+        Generate .txt Document
+      </button>
+      <button onClick={() => reloadFile()}>
         Generate .txt Document
       </button>
       <h3>Blaues Team</h3>

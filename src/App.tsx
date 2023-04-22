@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { EduBallFileEditor } from "./EduBallFileEditor";
 import { LoadGame } from "./LoadGame";
@@ -27,19 +27,18 @@ const exampleConfig: IConfig = {
 };
 
 function App() {
-  console.log("e");
+  const[loadedConfig, setLoadedConfig] = useState();
+  const[selectedFile, setSelectedFile] = useState();
+
   return (
-    <BrowserRouter>
-      <div className="App" onKeyDown={(e) => console.log(e)} tabIndex={0}>
-        <Routes>
-          <Route
-            path="/editor"
-            element={<EduBallFileEditor loadedConfig={exampleConfig} />}
-          />
-          <Route path="/" element={<LoadGame loadedConfig={exampleConfig} />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+  <BrowserRouter>
+    <div className="App">
+    <Routes>
+    <Route path="/editor" element={<EduBallFileEditor selectedFile={selectedFile} setSelectedFile={setSelectedFile} loadedConfig={exampleConfig} setLoadedConfig={setLoadedConfig} />}/>
+    <Route path="/" element={<LoadGame selectedFile={selectedFile} setSelectedFile={setSelectedFile} />}/>
+    </Routes>
+    </div>
+  </BrowserRouter>
   );
 }
 
