@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { EduBallFileEditor, IConfig } from "./EduBallFileEditor";
+
+const exampleConfig: IConfig = {
+  students: {
+    red: ["Alice", "Bob", "Carol"],
+    blue: ["David", "Eve", "Frank"],
+  },
+  questions: [
+    {
+      q: "What is the capital of France?",
+      a: "Paris",
+    },
+    {
+      q: "What is the square root of 64?",
+      a: "8",
+    },
+    {
+      q: "What is the chemical symbol for water?",
+      a: "H2O",
+    },
+  ],
+};
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <EduBallFileEditor loadedConfig={exampleConfig} />
     </div>
   );
 }
