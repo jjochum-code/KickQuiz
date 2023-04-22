@@ -27,9 +27,10 @@ const exampleConfig: IConfig = {
 };
 
 function App() {
+  console.log("e");
   return (
     <BrowserRouter>
-      <div className="App">
+      <div className="App" onKeyDown={(e) => console.log(e)} tabIndex={0}>
         <Routes>
           <Route
             path="/editor"
