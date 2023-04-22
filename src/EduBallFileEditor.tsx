@@ -1,40 +1,11 @@
 import React, { useState } from "react";
 import "./App.css";
 import { produce } from "immer";
-
-export interface IQuestions {
-  q: string;
-  a: string;
-}
-
-export interface IConfig {
-  students: {
-    red: string[];
-    blue: string[];
-  };
-  questions: IQuestions[];
-}
-
-const exampleConfig: IConfig = {
-  students: {
-    red: ["Alice", "Bob", "Carol"],
-    blue: ["David", "Eve", "Frank"],
-  },
-  questions: [
-    {
-      q: "What is the capital of France?",
-      a: "Paris",
-    },
-    {
-      q: "What is the square root of 64?",
-      a: "8",
-    },
-    {
-      q: "What is the chemical symbol for water?",
-      a: "H2O",
-    },
-  ],
-};
+import { QuestionList } from "./QuestionList";
+import { StudentList } from "./StudentList";
+import { generateTxtFile } from "./generateTxtFile";
+import { IConfig, IQuestions, toggleDirections } from "./interfaces";
+import { Container } from "@mui/material";
 
 export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
   const [questions, setQuestions] = useState<IQuestions[]>(
@@ -45,25 +16,45 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
     loadedConfig.students.blue
   );
 
-  function deleteStudent(index: number) {
-    setTeamBlue((baseState) => {
-      const nextState = produce(baseState, (draftState: string[]) => {
-        draftState.splice(index, 1);
+  function deleteStudent(teamSetter: Function) {
+    return function (index: number) {
+      teamSetter((baseState: string[]) => {
+        const nextState = produce(baseState, (draftState: string[]) => {
+          draftState.splice(index, 1);
+        });
+        return nextState;
       });
-      return nextState;
-    });
+    };
   }
 
-  function addStudent() {
-    //
+  function addStudent(setTeamBlue: Function, studentName: string = "") {
+    setTeamBlue((prev: string[]) => [...prev, studentName]);
   }
 
-  function toggleStudentTeam() {
-    //
+  function toggleStudentTeam(index: number, direction: toggleDirections) {
+    function toggle(
+      index: number,
+      fromTeam: string[],
+      fromTeamSetter: Function,
+      toTeamSetter: Function
+    ) {
+      addStudent(toTeamSetter, fromTeam[index]);
+      deleteStudent(fromTeamSetter)(index);
+    }
+    switch (direction) {
+      case "fromBlueToRed":
+        toggle(index, teamBlue, setTeamBlue, setTeamRed);
+        break;
+      case "fromRedToBlue":
+        toggle(index, teamRed, setTeamRed, setTeamBlue);
+        break;
+      default:
+        throw new Error("Unknown student change direction");
+    }
   }
 
   //// ---------------------------------------------------------------------------------------------
-  //// TODO deduplicate
+  //// TODO deduplicate and rename
   function changeTeamBlue(studentname: string, index: number) {
     setTeamBlue((baseState) => {
       const nextState = produce(baseState, (draftState: string[]) => {
@@ -72,7 +63,6 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
       return nextState;
     });
   }
-
   function changeTeamRed(studentname: string, index: number) {
     setTeamRed((baseState) => {
       const nextState = produce(baseState, (draftState: string[]) => {
@@ -83,55 +73,76 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
   }
   //// ---------------------------------------------------------------------------------------------
 
+  function addQuestion() {
+    setQuestions((prev) => [...prev, { q: "", a: "" }]);
+  }
+
+  function deleteQuestion(index: number) {
+    setQuestions((prev) => {
+      const newState = [...prev];
+      newState.splice(index, 1);
+      return newState;
+    });
+  }
+
+  function editQuestion(index: number, value: string) {
+    setQuestions((prev) => {
+      const nextState = produce(prev, (draftState) => {
+        draftState[index].q = value;
+      });
+      return nextState;
+    });
+  }
+
+  function editAnswer(index: number, value: string) {
+    setQuestions((prev) => {
+      const nextState = produce(prev, (draftState) => {
+        draftState[index].a = value;
+      });
+      return nextState;
+    });
+  }
+
   return (
-    <>
+    <Container>
+      <button onClick={() => generateTxtFile(teamBlue, teamRed, questions)}>
+        Generate .txt Document
+      </button>
       <h3>Blaues Team</h3>
       <StudentList
         students={teamBlue}
         changeStudentName={changeTeamBlue}
-        deleteStudent={deleteStudent}
+        deleteStudent={deleteStudent(setTeamBlue)}
+        toggleStudentTeam={toggleStudentTeam}
+        toggleDirection={"fromBlueToRed"}
       />
+      <div>
+        <button onClick={() => addStudent(setTeamBlue)}> + </button>
+      </div>
       <br />
       <h3>Rotes Team</h3>
       <StudentList
         students={teamRed}
         changeStudentName={changeTeamRed}
-        deleteStudent={() => {}}
+        deleteStudent={deleteStudent(setTeamRed)}
+        toggleStudentTeam={toggleStudentTeam}
+        toggleDirection={"fromRedToBlue"}
       />
-      {teamRed.map((student, index) => (
-        <div>{student}</div>
-      ))}
+      <div>
+        <button onClick={() => addStudent(setTeamRed)}> + </button>
+      </div>
       <h3>Fragen und Antworten</h3>
-      {questions.map(({ q, a }) => (
-        <>
-          <div>Frage</div>
-          <div>{q}</div>
-          <div>{a}</div>
-        </>
-      ))}
-    </>
-  );
-}
-
-function StudentList({
-  students,
-  changeStudentName,
-  deleteStudent,
-}: {
-  students: string[];
-  changeStudentName: Function;
-  deleteStudent: Function;
-}) {
-  return (
-    <>
-      {students.map((student, index) => (
-        <div>
-          <input
-            value={student}
-            onChange={(e) => changeStudentName(e.target.value, index)}
-          />
-        </div>
-      ))}
-    </>
+      <QuestionList
+        questions={questions}
+        deleteQuestion={deleteQuestion}
+        editQuestion={editQuestion}
+        editAnswer={editAnswer}
+      />
+      <div>
+        <button onClick={addQuestion}> + </button>
+      </div>
+      <br />
+      <br />
+    </Container>
   );
 }
