@@ -3,21 +3,8 @@ import "./App.css";
 import { produce } from "immer";
 import { QuestionList } from "./QuestionList";
 import { StudentList } from "./StudentList";
-
-export interface IQuestions {
-  q: string;
-  a: string;
-}
-
-export interface IConfig {
-  students: {
-    red: string[];
-    blue: string[];
-  };
-  questions: IQuestions[];
-}
-
-export type toggleDirections = "fromRedToBlue" | "fromBlueToRed";
+import { generateTxtFile } from "./generateTxtFile";
+import { IConfig, IQuestions, toggleDirections } from "./interfaces";
 
 export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
   const [questions, setQuestions] = useState<IQuestions[]>(
@@ -66,7 +53,7 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
   }
 
   //// ---------------------------------------------------------------------------------------------
-  //// TODO deduplicate
+  //// TODO deduplicate and rename
   function changeTeamBlue(studentname: string, index: number) {
     setTeamBlue((baseState) => {
       const nextState = produce(baseState, (draftState: string[]) => {
@@ -75,7 +62,6 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
       return nextState;
     });
   }
-
   function changeTeamRed(studentname: string, index: number) {
     setTeamRed((baseState) => {
       const nextState = produce(baseState, (draftState: string[]) => {
@@ -84,7 +70,6 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
       return nextState;
     });
   }
-
   //// ---------------------------------------------------------------------------------------------
 
   function addQuestion() {
@@ -93,12 +78,35 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
 
   function deleteQuestion(index: number) {
     setQuestions((prev) => {
-      return [...prev].splice(index, 1);
+      const newState = [...prev];
+      newState.splice(index, 1);
+      return newState;
+    });
+  }
+
+  function editQuestion(index: number, value: string) {
+    setQuestions((prev) => {
+      const nextState = produce(prev, (draftState) => {
+        draftState[index].q = value;
+      });
+      return nextState;
+    });
+  }
+
+  function editAnswer(index: number, value: string) {
+    setQuestions((prev) => {
+      const nextState = produce(prev, (draftState) => {
+        draftState[index].a = value;
+      });
+      return nextState;
     });
   }
 
   return (
     <>
+      <button onClick={() => generateTxtFile(teamBlue, teamRed, questions)}>
+        Generate .txt Document
+      </button>
       <h3>Blaues Team</h3>
       <StudentList
         students={teamBlue}
@@ -123,7 +131,12 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
         <button onClick={() => addStudent(setTeamRed)}> + </button>
       </div>
       <h3>Fragen und Antworten</h3>
-      <QuestionList questions={questions} deleteQuestion={deleteQuestion} />
+      <QuestionList
+        questions={questions}
+        deleteQuestion={deleteQuestion}
+        editQuestion={editQuestion}
+        editAnswer={editAnswer}
+      />
       <div>
         <button onClick={addQuestion}> + </button>
       </div>

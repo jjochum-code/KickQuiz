@@ -1,5 +1,5 @@
 import React from "react";
-import { toggleDirections } from "./EduBallFileEditor";
+import { toggleDirections } from "./interfaces";
 
 export function StudentList({
   students,
