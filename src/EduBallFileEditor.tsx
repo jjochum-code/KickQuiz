@@ -5,6 +5,7 @@ import { QuestionList } from "./QuestionList";
 import { StudentList } from "./StudentList";
 import { generateTxtFile } from "./generateTxtFile";
 import { IConfig, IQuestions, toggleDirections } from "./interfaces";
+import { Container } from "@mui/material";
 
 export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
   const [questions, setQuestions] = useState<IQuestions[]>(
@@ -103,7 +104,7 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
   }
 
   return (
-    <>
+    <Container>
       <button onClick={() => generateTxtFile(teamBlue, teamRed, questions)}>
         Generate .txt Document
       </button>
@@ -142,6 +143,6 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
       </div>
       <br />
       <br />
-    </>
+    </Container>
   );
 }

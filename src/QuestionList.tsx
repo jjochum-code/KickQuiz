@@ -1,5 +1,6 @@
 import React from "react";
 import { IQuestions } from "./interfaces";
+import { Paper } from "@mui/material";
 
 interface IQuestionListProps {
   questions: IQuestions[];
@@ -18,7 +19,7 @@ export function QuestionList({
     <div>
       {questions.map(({ q, a }, index) => (
         <>
-          <div key={index}>
+          <Paper elevation={3} key={index}>
             <div>Frage:</div>
             <div>
               <input
@@ -35,7 +36,7 @@ export function QuestionList({
                 onChange={(e) => editAnswer(index, e.target.value)}
               />
             </div>
-          </div>
+          </Paper>
           <button onClick={() => deleteQuestion(index)}> X</button>
           <br />
         </>
