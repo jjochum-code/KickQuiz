@@ -123,7 +123,7 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
         <button onClick={() => addStudent(setTeamRed)}> + </button>
       </div>
       <h3>Fragen und Antworten</h3>
-      <QuestionList questions={questions} />
+      <QuestionList questions={questions} deleteQuestion={deleteQuestion} />
       <div>
         <button onClick={addQuestion}> + </button>
       </div>
