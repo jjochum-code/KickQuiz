@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
 import { produce } from "immer";
+import { QuestionList } from "./QuestionList";
+import { StudentList } from "./StudentList";
 
 export interface IQuestions {
   q: string;
@@ -15,26 +17,7 @@ export interface IConfig {
   questions: IQuestions[];
 }
 
-const exampleConfig: IConfig = {
-  students: {
-    red: ["Alice", "Bob", "Carol"],
-    blue: ["David", "Eve", "Frank"],
-  },
-  questions: [
-    {
-      q: "What is the capital of France?",
-      a: "Paris",
-    },
-    {
-      q: "What is the square root of 64?",
-      a: "8",
-    },
-    {
-      q: "What is the chemical symbol for water?",
-      a: "H2O",
-    },
-  ],
-};
+export type toggleDirections = "fromRedToBlue" | "fromBlueToRed";
 
 export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
   const [questions, setQuestions] = useState<IQuestions[]>(
@@ -45,21 +28,41 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
     loadedConfig.students.blue
   );
 
-  function deleteStudent(index: number) {
-    setTeamBlue((baseState) => {
-      const nextState = produce(baseState, (draftState: string[]) => {
-        draftState.splice(index, 1);
+  function deleteStudent(teamSetter: Function) {
+    return function (index: number) {
+      teamSetter((baseState: string[]) => {
+        const nextState = produce(baseState, (draftState: string[]) => {
+          draftState.splice(index, 1);
+        });
+        return nextState;
       });
-      return nextState;
-    });
+    };
   }
 
-  function addStudent() {
-    //
+  function addStudent(setTeamBlue: Function, studentName: string = "") {
+    setTeamBlue((prev: string[]) => [...prev, studentName]);
   }
 
-  function toggleStudentTeam() {
-    //
+  function toggleStudentTeam(index: number, direction: toggleDirections) {
+    function toggle(
+      index: number,
+      fromTeam: string[],
+      fromTeamSetter: Function,
+      toTeamSetter: Function
+    ) {
+      addStudent(toTeamSetter, fromTeam[index]);
+      deleteStudent(fromTeamSetter)(index);
+    }
+    switch (direction) {
+      case "fromBlueToRed":
+        toggle(index, teamBlue, setTeamBlue, setTeamRed);
+        break;
+      case "fromRedToBlue":
+        toggle(index, teamRed, setTeamRed, setTeamBlue);
+        break;
+      default:
+        throw new Error("Unknown student change direction");
+    }
   }
 
   //// ---------------------------------------------------------------------------------------------
@@ -81,7 +84,18 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
       return nextState;
     });
   }
+
   //// ---------------------------------------------------------------------------------------------
+
+  function addQuestion() {
+    setQuestions((prev) => [...prev, { q: "", a: "" }]);
+  }
+
+  function deleteQuestion(index: number) {
+    setQuestions((prev) => {
+      return [...prev].splice(index, 1);
+    });
+  }
 
   return (
     <>
@@ -89,49 +103,32 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
       <StudentList
         students={teamBlue}
         changeStudentName={changeTeamBlue}
-        deleteStudent={deleteStudent}
+        deleteStudent={deleteStudent(setTeamBlue)}
+        toggleStudentTeam={toggleStudentTeam}
+        toggleDirection={"fromBlueToRed"}
       />
+      <div>
+        <button onClick={() => addStudent(setTeamBlue)}> + </button>
+      </div>
       <br />
       <h3>Rotes Team</h3>
       <StudentList
         students={teamRed}
         changeStudentName={changeTeamRed}
-        deleteStudent={() => {}}
+        deleteStudent={deleteStudent(setTeamRed)}
+        toggleStudentTeam={toggleStudentTeam}
+        toggleDirection={"fromRedToBlue"}
       />
-      {teamRed.map((student, index) => (
-        <div>{student}</div>
-      ))}
+      <div>
+        <button onClick={() => addStudent(setTeamRed)}> + </button>
+      </div>
       <h3>Fragen und Antworten</h3>
-      {questions.map(({ q, a }) => (
-        <>
-          <div>Frage</div>
-          <div>{q}</div>
-          <div>{a}</div>
-        </>
-      ))}
-    </>
-  );
-}
-
-function StudentList({
-  students,
-  changeStudentName,
-  deleteStudent,
-}: {
-  students: string[];
-  changeStudentName: Function;
-  deleteStudent: Function;
-}) {
-  return (
-    <>
-      {students.map((student, index) => (
-        <div>
-          <input
-            value={student}
-            onChange={(e) => changeStudentName(e.target.value, index)}
-          />
-        </div>
-      ))}
+      <QuestionList questions={questions} deleteQuestion={deleteQuestion} />
+      <div>
+        <button onClick={addQuestion}> + </button>
+      </div>
+      <br />
+      <br />
     </>
   );
 }
