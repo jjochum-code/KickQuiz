@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Game.css";
-import { produce } from "immer";
-import { IConfig } from "./EduBallFileEditor";
 
 function Game() {
   const [ballPosition, setBallPosition] = useState<number>(0);
