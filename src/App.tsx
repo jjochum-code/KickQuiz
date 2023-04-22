@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
 import { EduBallFileEditor, IConfig } from "./EduBallFileEditor";
+import { LoadGame } from "./LoadGame";
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 const exampleConfig: IConfig = {
   students: {
@@ -25,9 +27,14 @@ const exampleConfig: IConfig = {
 
 function App() {
   return (
+  <BrowserRouter>
     <div className="App">
-      <EduBallFileEditor loadedConfig={exampleConfig} />
+    <Routes>
+    <Route path="/editor" element={<EduBallFileEditor loadedConfig={exampleConfig} />}/>
+    <Route path="/" element={<LoadGame loadedConfig={exampleConfig} />}/>
+    </Routes>
     </div>
+  </BrowserRouter>
   );
 }
 
