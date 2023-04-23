@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import { EduBallFileEditor } from "./EduBallFileEditor";
+import { FootballField } from "./FootballField";
 import { LoadGame } from "./LoadGame";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { IConfig } from "./interfaces";
@@ -46,6 +47,12 @@ function App() {
             path="/"
             element={
               <LoadGame/>
+            }
+          />
+          <Route
+            path="/footballfield"
+            element={
+              <FootballField/>
             }
           />
         </Routes>
