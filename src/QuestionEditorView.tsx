@@ -3,6 +3,17 @@ import { IQuestions } from "./interfaces";
 import { LoadQuestions } from "./LoadQuestions";
 import { QuestionList } from "./QuestionList";
 import { produce } from "immer";
+import { SaveQuestions } from "./SaveQuestions";
+import {
+  Typography,
+  Box,
+  AccordionDetails,
+  Accordion,
+  AccordionSummary,
+  Button,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { LoadStudentsButton } from "./LoadStudentsButton";
 
 interface IProps {
   questions: IQuestions[];
@@ -45,18 +56,44 @@ export function QuestionEditorView({
 
   return (
     <div>
-      <LoadQuestions setQuestions={setQuestions} />
       <br />
-      <br />
-      <h3>Fragen und Antworten</h3>
-      <QuestionList
-        questions={questions}
-        deleteQuestion={deleteQuestion}
-        editQuestion={editQuestion}
-        editAnswer={editAnswer}
-      />
       <div>
-        <button onClick={addQuestion}> + </button>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography variant="h3" component="h2">
+              Fragen und Antworten
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Box sx={{ display: "flex" }}>
+              <Box sx={{ width: "100%" }} paddingRight={1} paddingY={1}>
+                <LoadStudentsButton setQuestions={setQuestions} />
+              </Box>
+              <Box sx={{ width: "100%" }} paddingLeft={1} paddingY={1}>
+                <SaveQuestions questions={questions} />
+              </Box>
+            </Box>
+            <QuestionList
+              questions={questions}
+              deleteQuestion={deleteQuestion}
+              editQuestion={editQuestion}
+              editAnswer={editAnswer}
+            />
+          </AccordionDetails>
+          <Box paddingX={2} paddingBottom={2} sx={{ minWidth: "100%" }}>
+            <Button
+              variant="contained"
+              onClick={addQuestion}
+              sx={{ minWidth: "100%" }}
+            >
+              +
+            </Button>
+          </Box>
+        </Accordion>
       </div>
     </div>
   );

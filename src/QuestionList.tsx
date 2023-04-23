@@ -1,6 +1,7 @@
 import React from "react";
 import { IQuestions } from "./interfaces";
-import { Paper, Grid, Input, TextField, Box } from "@mui/material";
+import { Paper, Grid, TextField, Box, Button } from "@mui/material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 interface IQuestionListProps {
   questions: IQuestions[];
@@ -16,9 +17,9 @@ export function QuestionList({
   editAnswer,
 }: IQuestionListProps) {
   return (
-    <Grid container spacing={2} xs={12}>
+    <>
       {questions.map(({ q, a }, index) => (
-        <Grid item xs={12}>
+        <Box paddingY={1}>
           <Paper elevation={3} key={index}>
             <Box
               padding={1}
@@ -48,13 +49,18 @@ export function QuestionList({
                   />
                 </Box>
               </Box>
-              <Box padding={1}>
-                <button onClick={() => deleteQuestion(index)}>X</button>
+              <Box padding={1} paddingTop={2}>
+                <Button
+                  variant="contained"
+                  onClick={() => deleteQuestion(index)}
+                >
+                  <DeleteOutlineIcon />
+                </Button>
               </Box>
             </Box>
           </Paper>
-        </Grid>
+        </Box>
       ))}
-    </Grid>
+    </>
   );
 }
