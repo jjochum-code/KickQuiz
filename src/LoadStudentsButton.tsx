@@ -8,6 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { chooseFile } from "./fileLoaderFunctions";
 import { LoadQuestions } from "./LoadQuestions";
+import { Box } from "@mui/material";
 
 export function LoadStudentsButton({
   setQuestions,
@@ -41,7 +42,14 @@ export function LoadStudentsButton({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Fragen Laden"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          <Box sx={{ display: "flex" }}>
+            <Box paddingTop={0.5} paddingRight={1}>
+              <UploadFileIcon />
+            </Box>
+            <p>Fragen Laden</p>
+          </Box>
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Hier können Sie als .txt abgespeicherte Fragen laden.
@@ -54,14 +62,14 @@ export function LoadStudentsButton({
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Abbrechen</Button>
-          <LoadQuestions
-            setQuestions={setQuestions}
-            finishedCallback={() => setOpen(false)}
-          />
-          {/*<Button onClick={handleClose} autoFocus>*/}
-          {/*  Agree*/}
-          {/*</Button>*/}
+          <Box padding={1}>
+            <Button onClick={handleClose}>Abbrechen</Button>
+            &nbsp;&nbsp;&nbsp;
+            <LoadQuestions
+              setQuestions={setQuestions}
+              finishedCallback={() => setOpen(false)}
+            />
+          </Box>
         </DialogActions>
       </Dialog>
     </div>

@@ -4,6 +4,7 @@ import { StudentList } from "./StudentList";
 import { produce } from "immer";
 import { toggleDirections } from "./interfaces";
 import { SaveTeams } from "./SaveTeams";
+import { Box, Paper } from "@mui/material";
 
 interface IProps {
   setTeamRed: Function;
@@ -82,29 +83,44 @@ export function StudentEditorView({
       <LoadTeams setTeamRed={setTeamRed} setTeamBlue={setTeamBlue} />
       <SaveTeams teamBlue={teamBlue} teamRed={teamRed} />
       <br />
-      <h3>Blaues Team</h3>
-      <StudentList
-        students={teamBlue}
-        changeStudentName={changeTeamBlue}
-        deleteStudent={deleteStudent(setTeamBlue)}
-        toggleStudentTeam={toggleStudentTeam}
-        toggleDirection={"fromBlueToRed"}
-      />
-      <div>
-        <button onClick={() => addStudent(setTeamBlue)}> + </button>
-      </div>
-      <br />
-      <h3>Rotes Team</h3>
-      <StudentList
-        students={teamRed}
-        changeStudentName={changeTeamRed}
-        deleteStudent={deleteStudent(setTeamRed)}
-        toggleStudentTeam={toggleStudentTeam}
-        toggleDirection={"fromRedToBlue"}
-      />
-      <div>
-        <button onClick={() => addStudent(setTeamRed)}> + </button>
-      </div>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box padding={1} sx={{ display: "flex" }}>
+          <Paper>
+            <Box padding={1}>
+              <h3>Blaues Team</h3>
+              <StudentList
+                students={teamBlue}
+                changeStudentName={changeTeamBlue}
+                deleteStudent={deleteStudent(setTeamBlue)}
+                toggleStudentTeam={toggleStudentTeam}
+                toggleDirection={"fromBlueToRed"}
+                position="left"
+              />
+              <div>
+                <button onClick={() => addStudent(setTeamBlue)}> + </button>
+              </div>
+            </Box>
+          </Paper>
+        </Box>
+        <Box padding={1}>
+          <Paper>
+            <Box padding={1}>
+              <h3>Rotes Team</h3>
+              <StudentList
+                students={teamRed}
+                changeStudentName={changeTeamRed}
+                deleteStudent={deleteStudent(setTeamRed)}
+                toggleStudentTeam={toggleStudentTeam}
+                toggleDirection={"fromRedToBlue"}
+                position="right"
+              />
+              <div>
+                <button onClick={() => addStudent(setTeamRed)}> + </button>
+              </div>
+            </Box>
+          </Paper>
+        </Box>
+      </Box>
     </>
   );
 }

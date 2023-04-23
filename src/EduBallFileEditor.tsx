@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { generateTxtFile } from "./generateTxtFile";
 import { IConfig, IQuestions } from "./interfaces";
 import { Container } from "@mui/material";
 import {
@@ -44,11 +43,6 @@ export function EduBallFileEditor({
 
   return (
     <Container>
-      <button onClick={() => generateTxtFile(teamBlue, teamRed, questions)}>
-        Generate .txt Document
-      </button>
-      <hr />
-      <br />
       <StudentEditorView
         setTeamRed={setTeamRed}
         setTeamBlue={setTeamBlue}

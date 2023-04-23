@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { chooseFile, reloadFile } from "./fileLoaderFunctions";
 import { Button } from "@mui/material";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
+import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 
 interface IProps {
   setQuestions: Function;
@@ -48,8 +48,8 @@ export function LoadQuestions({
 
   return (
     <Button variant="contained" component="label">
-      <UploadFileIcon />
-      &nbsp;&nbsp; Fragen Laden
+      <FolderOpenIcon />
+      &nbsp;&nbsp; Datei Öffnen
       <input
         type="file"
         hidden
