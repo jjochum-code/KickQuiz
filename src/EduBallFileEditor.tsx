@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { produce } from "immer";
 import { QuestionList } from "./QuestionList";
@@ -6,8 +6,19 @@ import { StudentList } from "./StudentList";
 import { generateTxtFile } from "./generateTxtFile";
 import { IConfig, IQuestions, toggleDirections } from "./interfaces";
 import { Container } from "@mui/material";
+import { dataIndex } from "./constStrings";
 
-export function EduBallFileEditor({ selectedFile, setSelectedFile, loadedConfig, setLoadedConfig }: { selectedFile: any, setSelectedFile: Function, loadedConfig: IConfig, setLoadedConfig: Function }) {
+export function EduBallFileEditor({
+  selectedFile,
+  setSelectedFile,
+  loadedConfig,
+  setLoadedConfig,
+}: {
+  selectedFile: any;
+  setSelectedFile: Function;
+  loadedConfig: IConfig;
+  setLoadedConfig: Function;
+}) {
   const [questions, setQuestions] = useState<IQuestions[]>(
     loadedConfig.questions
   );
@@ -15,34 +26,53 @@ export function EduBallFileEditor({ selectedFile, setSelectedFile, loadedConfig,
   const [teamBlue, setTeamBlue] = useState<string[]>(
     loadedConfig.students.blue
   );
+  const [dataLoaded, setDataLoaded] = useState<boolean>(false);
+  useEffect(() => {
+    const data = loadData();
+    if (data) {
+      setQuestions(data.questions);
+      setTeamRed(data.students.red);
+      setTeamBlue(data.students.blue);
+      setDataLoaded(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (dataLoaded) {
+      saveEditorData(teamBlue, teamRed, questions);
+    }
+  }, [teamBlue, teamRed, questions, dataLoaded]);
 
   function reloadFile() {
-      try {
-        selectedFile.text().then((x: string) => setLoadedConfig(parseConfig(x)));
-      } catch (log) {
-          alert("Ein fehler beim lesen der Datei ist eingetreten. Bitte geben sie das an einen IT-Experten ihres vertrauens: " + log);
-      }
+    try {
+      selectedFile.text().then((x: string) => setLoadedConfig(parseConfig(x)));
+    } catch (log) {
+      alert(
+        "Ein fehler beim lesen der Datei ist eingetreten. Bitte geben sie das an einen IT-Experten ihres vertrauens: " +
+          log
+      );
+    }
   }
 
   function parseConfig(input: string) {
-      const regex: RegExp = /(((?:fr*a*g*e*:)+)(?<q>[\n!?.a-z0-9: ]*?)(?:an*t*w*o*r*t*:)(?<a>[\n!?.a-z0-9 ]*?))(?:(?=\2)|$)/gi
-      const matches = input.matchAll(regex); 
-      let x;
-      let allQuestions = [];
-      while (true) {
-          x = matches.next();
-          if (x.done === true) {
-              break;
-          }
-          allQuestions.push(x.value.groups);
+    const regex: RegExp =
+      /(((?:fr*a*g*e*:)+)(?<q>[\n!?.a-z0-9: ]*?)(?:an*t*w*o*r*t*:)(?<a>[\n!?.a-z0-9 ]*?))(?:(?=\2)|$)/gi;
+    const matches = input.matchAll(regex);
+    let x;
+    let allQuestions = [];
+    while (true) {
+      x = matches.next();
+      if (x.done === true) {
+        break;
       }
-      //TODO
-      // setLoadedConfig((baseState) => {
-      //     const nextState = produce(baseState, (draftState) => {draftState.questions = allQuestions});
-      //     return nextState
-      //         });
-      console.log(allQuestions)
-
+      allQuestions.push(x.value.groups);
+    }
+    //TODO
+    // setLoadedConfig((baseState) => {
+    //     const nextState = produce(baseState, (draftState) => {draftState.questions = allQuestions});
+    //     return nextState
+    //         });
+    console.log(allQuestions);
   }
 
   function deleteStudent(teamSetter: Function) {
@@ -56,8 +86,9 @@ export function EduBallFileEditor({ selectedFile, setSelectedFile, loadedConfig,
     };
   }
 
-  function addStudent(setTeamBlue: Function, studentName: string = "") {
-    setTeamBlue((prev: string[]) => [...prev, studentName]);
+  function addStudent(teamSetter: Function, studentName: string = "") {
+    teamSetter((prev: string[]) => [...prev, studentName]);
+    console.debug(teamBlue);
   }
 
   function toggleStudentTeam(index: number, direction: toggleDirections) {
@@ -137,9 +168,7 @@ export function EduBallFileEditor({ selectedFile, setSelectedFile, loadedConfig,
       <button onClick={() => generateTxtFile(teamBlue, teamRed, questions)}>
         Generate .txt Document
       </button>
-      <button onClick={() => reloadFile()}>
-        Generate .txt Document
-      </button>
+      <button onClick={() => reloadFile()}>Generate .txt Document</button>
       <h3>Blaues Team</h3>
       <StudentList
         students={teamBlue}
@@ -177,4 +206,36 @@ export function EduBallFileEditor({ selectedFile, setSelectedFile, loadedConfig,
       <br />
     </Container>
   );
+}
+
+function saveEditorData(
+  teamBlue: string[],
+  teamRed: string[],
+  questions: IQuestions[]
+) {
+  saveData(mergeData(teamBlue, teamRed, questions));
+}
+
+function mergeData(
+  teamBlue: string[],
+  teamRed: string[],
+  questions: IQuestions[]
+): IConfig {
+  return { students: { red: teamRed, blue: teamBlue }, questions };
+}
+
+function saveData(config: IConfig): void {
+  localStorage.setItem(dataIndex, JSON.stringify(config, null, 2));
+}
+
+function loadData(): IConfig | undefined {
+  const dataString = localStorage.getItem(dataIndex);
+  if (dataString) {
+    try {
+      return JSON.parse(dataString) as IConfig;
+    } catch {
+      console.error("Data loaded from localStorage could not be serialized.");
+    }
+  }
+  return;
 }

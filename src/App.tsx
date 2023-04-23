@@ -27,18 +27,36 @@ const exampleConfig: IConfig = {
 };
 
 function App() {
-  const[loadedConfig, setLoadedConfig] = useState();
-  const[selectedFile, setSelectedFile] = useState();
+  const [loadedConfig, setLoadedConfig] = useState();
+  const [selectedFile, setSelectedFile] = useState();
 
   return (
-  <BrowserRouter>
-    <div className="App">
-    <Routes>
-    <Route path="/editor" element={<EduBallFileEditor selectedFile={selectedFile} setSelectedFile={setSelectedFile} loadedConfig={exampleConfig} setLoadedConfig={setLoadedConfig} />}/>
-    <Route path="/" element={<LoadGame selectedFile={selectedFile} setSelectedFile={setSelectedFile} />}/>
-    </Routes>
-    </div>
-  </BrowserRouter>
+    <BrowserRouter>
+      <div className="App">
+        <Routes>
+          <Route
+            path="/editor"
+            element={
+              <EduBallFileEditor
+                selectedFile={selectedFile}
+                setSelectedFile={setSelectedFile}
+                loadedConfig={exampleConfig}
+                setLoadedConfig={setLoadedConfig}
+              />
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <LoadGame
+                selectedFile={selectedFile}
+                setSelectedFile={setSelectedFile}
+              />
+            }
+          />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 
