@@ -3,82 +3,135 @@ import "./Game.css";
 import { produce } from "immer";
 
 function Game() {
-  const [ballPosition, setBallPosition] = useState<number>(0);
+  const [ballPosition, setBallPosition] = useState<number>(3);
 
+  const [leftScore, setLeftScore] = useState<number>(0);
+  const [rightScore, setRightScore] = useState<number>(0);
   const keyDownEvent = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.code === "ArrowRight") {
-      setBallPosition(() => (ballPosition + 1) % 6);
+      setLeftScore(() => {
+        return ballPosition + 1 <= 6 ? leftScore : leftScore + 1;
+      });
+      setBallPosition(() => {
+        let newBallPos = ballPosition + 1;
+        return newBallPos <= 6 ? newBallPos : 3;
+      });
     }
     if (event.code === "ArrowLeft") {
-      setBallPosition(() => (ballPosition - 1) % 6);
+      setRightScore(() => {
+        return ballPosition - 1 >= 0 ? rightScore : rightScore + 1;
+      });
+      setBallPosition(() => {
+        let newBallPos = ballPosition - 1;
+        return newBallPos >= 0 ? newBallPos : 3;
+      });
     }
   };
   return (
     <div className="background" onKeyDown={keyDownEvent} tabIndex={0}>
-      {<LowerHalf />}
+      {
+        <PlaygroundContainer
+          ballPosition={ballPosition}
+          leftScore={leftScore}
+          rightScore={rightScore}
+        />
+      }
     </div>
   );
 }
 
-/*-----------------Score and questions aka upper 50% of the screen--------------------*/
-function Questionbard() {
+/*-----------------Playground--------------------*/
+
+function PlaygroundContainer({
+  ballPosition,
+  leftScore,
+  rightScore,
+}: {
+  ballPosition: number;
+  leftScore: number;
+  rightScore: number;
+}) {
   return (
-    <div className="questionboard">
-      <div className="questionboardinner">
-        <p>Centered text</p>
-      </div>
+    <div className="playgroundcontainer">
+      {
+        <Playground
+          ballPosition={ballPosition}
+          leftScore={leftScore}
+          rightScore={rightScore}
+        />
+      }
     </div>
   );
 }
 
-/*-----------------Playground aka lower 50% of the screen--------------------*/
-
-function LowerHalf() {
-  return <div className="background_scale">{<Playground />}</div>;
-}
-function Playground() {
-  /*ensure center of the playground is at 75% of the screen*/
-  /*return <div className="playground"></div>;*/
-  return <div className="playground_scale">{<Ball ballPosition={4} />}</div>;
+function Playground({
+  ballPosition,
+  leftScore,
+  rightScore,
+}: {
+  ballPosition: number;
+  leftScore: number;
+  rightScore: number;
+}) {
+  return (
+    <div className="playground">
+      {<QuestionBoard />}
+      {<ScoreLeft score={leftScore} />}
+      {<ScoreRight score={rightScore} />}
+      {<Ball ballPosition={ballPosition} />}
+    </div>
+  );
 }
 
 function Ball({ ballPosition }: { ballPosition: number }) {
-  const divRef = useRef<HTMLDivElement>(null);
+  type Coordinate = [string, string]; // Define a type alias for the tuple
 
-  /*x and y are the percentage offset from the center of the playground to the edge of the screen */
-  /*(or to the center of the screen in case of positive)*/
-  let x = 0.4; /*negative = offset to left, positive = offset to right*/
-  let y = 1; /*negative = offset down, positive = offset up (can be above 1)*/
+  const coordinates: Coordinate[] = [
+    // Define an array of coordinates
+    ["61%", "5%"],
+    ["58%", "20%"],
+    ["50%", "34%"],
+    ["61%", "47.5%"],
+    ["72%", "60%"],
+    ["68%", "75%"],
+    ["58%", "86%"],
+  ];
+  const [top, left] = coordinates[ballPosition];
 
-  useEffect(() => {
-    const setPagePosition = () => {
-      const pageScale = window.devicePixelRatio;
-      const pageWidth = window.innerWidth;
-      const pageHeight = window.innerHeight;
+  return (
+    <div className="ball" style={{ position: "absolute", top, left }}>
+      <p className="cv_text">Ball</p>
+    </div>
+  );
+}
 
-      const div = divRef.current;
-      if (div) {
-        div.style.position = "absolute";
-        let ball_size = (((pageWidth + pageHeight) / 2 - 250) / 10) * pageScale;
-        div.style.left =
-          (pageWidth - ball_size) / 2 + x * (pageWidth / 2) + "px";
-        div.style.top =
-          pageHeight * 0.75 - ball_size / 2 + -y * (pageHeight / 4) + "px";
-        div.style.width = ball_size + "px";
-        div.style.height = ball_size + "px";
-      }
-    };
+/*-----------------Score and questions--------------------*/
 
-    setPagePosition();
+function ScoreLeft({ score }: { score: number }) {
+  return (
+    <div className="score-left">
+      <h2 className="score-text">{score}</h2>
+    </div>
+  );
+}
 
-    window.addEventListener("resize", setPagePosition);
+function ScoreRight({ score }: { score: number }) {
+  return (
+    <div className="score-right">
+      <h2 className="score-text">{score}</h2>
+    </div>
+  );
+}
 
-    return () => {
-      window.removeEventListener("resize", setPagePosition);
-    };
-  }, [x, y]);
-
-  return <div className="ball"></div>;
+function QuestionBoard() {
+  return (
+    <div className="questionboard">
+      <h2 id="questionboard-text">
+        If a football team has gained 345 yards in their first 3 games of the
+        season, what is their average yardage per game?
+      </h2>
+    </div>
+  );
 }
 
 export default Game;

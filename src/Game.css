@@ -8,7 +8,66 @@
     height: 100vh;
 }
 
-.background_scale {
+/*-----------------Score and questions aka upper 50% of the screen--------------------*/
+.questionboard {
+    width:37.5em;
+    height: 23em;
+    top:8%;
+    left:calc(50% - 37.5em/2);;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    justify-content: center;
+}
+
+#questionboard-text {
+    width: 100%; /* set width to 100% to fill parent div */
+    padding: 10px; /* add padding to child div for spacing */
+    font-size: 2em;
+    line-height: 1.5; /* adjust line-height to fit text within the div */
+    text-overflow: ellipsis; /* add ellipsis to indicate content overflow */
+    overflow: hidden; /* set overflow to hidden to prevent any content from overflowing */
+    word-wrap: break-word; /* allow words to break and wrap onto the next line if necessary */
+    text-align: center; /* center text horizontally */
+}
+
+.score-left {
+    width:4.6em;
+    height:4.9em;
+    top:18.6%;
+    left:calc(18.7% - 4.6em/2);
+    margin: auto;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    justify-content: center;
+}
+
+
+.score-right {
+    width:4.6em;
+    height:4.9em;
+    top:18.6%;
+    right:calc(18.5% - 4.6em/2);
+    margin: auto;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    justify-content: center;
+}
+
+.score-text {
+    font-size: 3em;
+    overflow: hidden; /* set overflow to hidden to prevent any content from overflowing */
+    text-align: center; /* center text horizontally */
+}
+
+
+
+/*-----------------Playground--------------------*/
+
+.playgroundcontainer {
     width: 100vw;
     height: 100vh;
     margin: 0;
@@ -18,50 +77,14 @@
     font-size: min(1vw, 1.778vh);
 }
 
-/*-----------------Score and questions aka upper 50% of the screen--------------------*/
-.questionboard {
-    background-image: url(../Assets/question_board.png);
-    background-position: center;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    height: 40vh;
-    width: 40vw;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.questionboardinner {
-    background-color: red;
-    height: 90%;
-    width: 90%;
-    margin: auto;
-    text-align: center;
-}
-
-
-/*-----------------Playground aka lower 50% of the screen--------------------*/
 .playground {
-    background-image: url(../Assets/playground.png);
-    background-position: center;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    object-fit: scale-down;
-}
-
-.playground_scale {
     background-image: url(../Assets/goal_wish.png);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     width: 100em;
     height: 56.25em;
+    position: relative;
 }
 
 .ball {
@@ -69,9 +92,14 @@
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    position: absolute;
     width: 5em;
     height: 5em;
-    position: relative;
-    top: 35em;
-    left: 48em;
+    border: 2px solid;
+    border-color: greenyellow;
+}
+
+.cv_text{
+    background-color: lightgray;
+    width: fit-content;
 }
