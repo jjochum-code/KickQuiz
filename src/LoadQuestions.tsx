@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { chooseFile, reloadFile } from "./loaderFunctions";
-import { IConfig } from "./interfaces";
+import { chooseFile, reloadFile } from "./fileLoaderFunctions";
 
 interface IProps {
   setQuestions: Function;
@@ -27,11 +26,6 @@ export function LoadQuestions({ setQuestions }: IProps): JSX.Element {
       allQuestions.push(x.value.groups);
     }
     setQuestions(allQuestions);
-
-    // setLoadedConfig((baseState: IConfig) => ({
-    //   students: baseState.students,
-    //   questions: allQuestions,
-    // }));
   }
 
   const [selectedFileQuestions, setSelectedFileQuestions] = useState();

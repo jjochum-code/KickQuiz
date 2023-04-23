@@ -6,9 +6,12 @@ import { StudentList } from "./StudentList";
 import { generateTxtFile } from "./generateTxtFile";
 import { IConfig, IQuestions, toggleDirections } from "./interfaces";
 import { Container } from "@mui/material";
-import { dataIndex } from "./constStrings";
-import { chooseFile, reloadFile } from "./loaderFunctions";
 import { LoadQuestions } from "./LoadQuestions";
+import { LoadTeams } from "./LoadTeams";
+import {
+  locallyLoadData,
+  locallySaveEditorData,
+} from "./localLoadingFunctions";
 
 export function EduBallFileEditor({
   loadedConfig,
@@ -25,9 +28,9 @@ export function EduBallFileEditor({
     loadedConfig.students.blue
   );
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
-  const [selectedFilePlayers, setSelectedFilePlayers] = useState();
+
   useEffect(() => {
-    const data = loadData();
+    const data = locallyLoadData();
     if (data) {
       setQuestions(data.questions);
       setTeamRed(data.students.red);
@@ -38,37 +41,9 @@ export function EduBallFileEditor({
 
   useEffect(() => {
     if (dataLoaded) {
-      saveEditorData(teamBlue, teamRed, questions);
+      locallySaveEditorData(teamBlue, teamRed, questions);
     }
   }, [teamBlue, teamRed, questions, dataLoaded]);
-
-  function parseConfigPlayers(input: string) {
-    let splitInput = input.split("\n");
-    let regexBlue = /bl+a+u+e+s+ +t+e+a+m+:/i;
-    let regexBlueFirst =
-      /(?:bl+a+u+e+s+ +t+e+a+m+:)(?<bt>([a-zöäü\n]*?))(?:ro+t+e+s+ t+e+a+m+:)(?<rt>[a-zöäü\n]*)/i;
-    let regexRedFirst =
-      /(?:ro+t+e+s+ t+e+a+m+:)(?<bt>([a-zöäü\n]*?))(?:bl+a+u+e+s+ +t+e+a+m+:)(?<rt>[a-zöäü\n]*)/i;
-    // remove empty lines
-    splitInput = splitInput.filter((x) => x.length > 0);
-
-    let match;
-    if (regexBlue.test(splitInput[0])) {
-      match = input.match(regexBlueFirst);
-    } else {
-      match = input.match(regexRedFirst);
-    }
-    if (match === null || match.groups === null) {
-      alert("Die Spielerdatei konnte nicht geladen werden :(");
-      return;
-    }
-    let redTeam = match.groups!.rt.split("\n").filter((x) => x.length > 0);
-    let blueTeam = match.groups!.bt.split("\n").filter((x) => x.length > 0);
-
-    setTeamRed(redTeam);
-    setTeamBlue(blueTeam);
-    // setLoadedConfig((baseState: IConfig) => ({student: {red: redTeam, blue: blueTeam}, questions: baseState.questions}));
-  }
 
   function deleteStudent(teamSetter: Function) {
     return function (index: number) {
@@ -165,36 +140,10 @@ export function EduBallFileEditor({
       </button>
       <br />
       <br />
+      <LoadTeams setTeamRed={setTeamRed} setTeamBlue={setTeamBlue} />
+      <br />
+      <br />
       <LoadQuestions setQuestions={setQuestions} />
-      {/*----------------------------------------------------------------------------------------*
-      <input
-        type="file"
-        name="file"
-        onChange={(event) => {
-          chooseFile(event, setSelectedFileQuestions);
-        }}
-      />
-      <button
-        onClick={() => reloadFile(selectedFileQuestions, parseConfigQuestions)}
-      >
-        Fragen Laden
-      </button>
-      {/*----------------------------------------------------------------------------------------*/}
-
-      <br />
-      <br />
-      <input
-        type="file"
-        name="file"
-        onChange={(event) => {
-          chooseFile(event, setSelectedFilePlayers);
-        }}
-      />
-      <button
-        onClick={() => reloadFile(selectedFilePlayers, parseConfigPlayers)}
-      >
-        SpielerLaden
-      </button>
       <br />
       <br />
       <h3>Blaues Team</h3>
@@ -234,36 +183,4 @@ export function EduBallFileEditor({
       <br />
     </Container>
   );
-}
-
-function saveEditorData(
-  teamBlue: string[],
-  teamRed: string[],
-  questions: IQuestions[]
-) {
-  saveData(mergeData(teamBlue, teamRed, questions));
-}
-
-function mergeData(
-  teamBlue: string[],
-  teamRed: string[],
-  questions: IQuestions[]
-): IConfig {
-  return { students: { red: teamRed, blue: teamBlue }, questions };
-}
-
-function saveData(config: IConfig): void {
-  localStorage.setItem(dataIndex, JSON.stringify(config, null, 2));
-}
-
-function loadData(): IConfig | undefined {
-  const dataString = localStorage.getItem(dataIndex);
-  if (dataString) {
-    try {
-      return JSON.parse(dataString) as IConfig;
-    } catch {
-      console.error("Data loaded from localStorage could not be serialized.");
-    }
-  }
-  return;
 }
