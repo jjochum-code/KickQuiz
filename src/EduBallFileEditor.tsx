@@ -33,8 +33,8 @@ export function EduBallFileEditor({
       setQuestions(data.questions);
       setTeamRed(data.students.red);
       setTeamBlue(data.students.blue);
-      setDataLoaded(true);
     }
+    setDataLoaded(true);
   }, []);
 
   useEffect(() => {
@@ -55,24 +55,32 @@ export function EduBallFileEditor({
   }
 
   function parseConfig(input: string) {
-    const regex: RegExp =
-      /(((?:fr*a*g*e*:)+)(?<q>[\n!?.a-z0-9: ]*?)(?:an*t*w*o*r*t*:)(?<a>[\n!?.a-z0-9 ]*?))(?:(?=\2)|$)/gi;
-    const matches = input.matchAll(regex);
-    let x;
-    let allQuestions = [];
-    while (true) {
-      x = matches.next();
-      if (x.done === true) {
-        break;
+      // regex to filter questions
+      const regexQuestions: RegExp = /(((?:fr*a*g*e*:)+)(?<q>[\n!?.,a-z0-9: äöü()=<>$"']*?)(?:an*t*w*o*r*t*:)(?<a>[\n!?.,a-z0-9 :äöü()=<>$"']*?))(?:(?=\2)|$)/gi
+      const matchesQuestions = input.matchAll(regexQuestions); 
+      // regex to filter team names
+      // const regesTeams: RegExp = 
+      let x;
+      let allQuestions: any = [];
+      while (true) {
+          x = matchesQuestions.next();
+          if (x.done === true) {
+              break;
+          }
+          // trim
+          x.value.groups!.q = x.value.groups!.q.trim()
+          x.value.groups!.a = x.value.groups!.a.trim()
+          allQuestions.push(x.value.groups);
       }
-      allQuestions.push(x.value.groups);
-    }
-    //TODO
-    // setLoadedConfig((baseState) => {
-    //     const nextState = produce(baseState, (draftState) => {draftState.questions = allQuestions});
-    //     return nextState
-    //         });
-    console.log(allQuestions);
+      setQuestions(allQuestions);
+
+      let studentsNew = {red: ["ha"], blue: ["he"]};
+
+      setLoadedConfig(() => {
+            return {students: studentsNew, questions: allQuestions};
+          });
+      console.log(allQuestions)
+      console.log(loadedConfig)
   }
 
   function deleteStudent(teamSetter: Function) {
