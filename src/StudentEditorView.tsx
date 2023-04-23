@@ -3,6 +3,7 @@ import { LoadTeams } from "./LoadTeams";
 import { StudentList } from "./StudentList";
 import { produce } from "immer";
 import { toggleDirections } from "./interfaces";
+import { SaveTeams } from "./SaveTeams";
 
 interface IProps {
   setTeamRed: Function;
@@ -79,6 +80,7 @@ export function StudentEditorView({
     <>
       <br />
       <LoadTeams setTeamRed={setTeamRed} setTeamBlue={setTeamBlue} />
+      <SaveTeams teamBlue={teamBlue} teamRed={teamRed} />
       <br />
       <h3>Blaues Team</h3>
       <StudentList

@@ -3,6 +3,7 @@ import { IQuestions } from "./interfaces";
 import { LoadQuestions } from "./LoadQuestions";
 import { QuestionList } from "./QuestionList";
 import { produce } from "immer";
+import { SaveQuestions } from "./SaveQuestions";
 
 interface IProps {
   questions: IQuestions[];
@@ -46,6 +47,7 @@ export function QuestionEditorView({
   return (
     <div>
       <LoadQuestions setQuestions={setQuestions} />
+      <SaveQuestions questions={questions} />
       <br />
       <br />
       <h3>Fragen und Antworten</h3>
