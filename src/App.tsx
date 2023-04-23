@@ -27,7 +27,8 @@ const exampleConfig: IConfig = {
 };
 
 function App() {
-  const [loadedConfig, setLoadedConfig] = useState();
+  const [loadedConfig, setLoadedConfig] = useState<IConfig>(exampleConfig);
+  console.log(loadedConfig);
   const [selectedFile, setSelectedFile] = useState();
 
   return (
@@ -40,7 +41,7 @@ function App() {
               <EduBallFileEditor
                 selectedFile={selectedFile}
                 setSelectedFile={setSelectedFile}
-                loadedConfig={exampleConfig}
+                loadedConfig={loadedConfig}
                 setLoadedConfig={setLoadedConfig}
               />
             }
