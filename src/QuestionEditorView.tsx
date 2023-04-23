@@ -13,6 +13,7 @@ import {
   Button,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { LoadStudentsButton } from "./LoadStudentsButton";
 
 interface IProps {
   questions: IQuestions[];
@@ -70,14 +71,12 @@ export function QuestionEditorView({
           <AccordionDetails>
             <Box sx={{ display: "flex" }}>
               <Box sx={{ width: "100%" }} paddingRight={1} paddingY={1}>
-                <SaveQuestions questions={questions} />
+                <LoadStudentsButton setQuestions={setQuestions} />
               </Box>
               <Box sx={{ width: "100%" }} paddingLeft={1} paddingY={1}>
                 <SaveQuestions questions={questions} />
               </Box>
             </Box>
-            <LoadQuestions setQuestions={setQuestions} />
-            <SaveQuestions questions={questions} />
             <QuestionList
               questions={questions}
               deleteQuestion={deleteQuestion}
