@@ -1,19 +1,21 @@
 import React from "react";
 import { toggleDirections } from "./interfaces";
 
+interface IStudentListProp {
+  students: string[];
+  changeStudentName: Function;
+  deleteStudent: Function;
+  toggleStudentTeam: Function;
+  toggleDirection: toggleDirections;
+}
+
 export function StudentList({
   students,
   changeStudentName,
   deleteStudent,
   toggleStudentTeam,
   toggleDirection,
-}: {
-  students: string[];
-  changeStudentName: Function;
-  deleteStudent: Function;
-  toggleStudentTeam: Function;
-  toggleDirection: toggleDirections;
-}) {
+}: IStudentListProp) {
   return (
     <>
       {students.map((student, index) => (

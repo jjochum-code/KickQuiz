@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import { produce } from "immer";
-import { QuestionList } from "./QuestionList";
-import { StudentList } from "./StudentList";
 import { generateTxtFile } from "./generateTxtFile";
-import { IConfig, IQuestions, toggleDirections } from "./interfaces";
+import { IConfig, IQuestions } from "./interfaces";
 import { Container } from "@mui/material";
+import {
+  locallyLoadData,
+  locallySaveEditorData,
+} from "./localLoadingFunctions";
+import { StudentEditorView } from "./StudentEditorView";
+import { QuestionEditorView } from "./QuestionEditorView";
 
-export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
+export function EduBallFileEditor({
+  loadedConfig,
+  setLoadedConfig,
+}: {
+  loadedConfig: IConfig;
+  setLoadedConfig: Function;
+}) {
   const [questions, setQuestions] = useState<IQuestions[]>(
     loadedConfig.questions
   );
@@ -15,132 +24,40 @@ export function EduBallFileEditor({ loadedConfig }: { loadedConfig: IConfig }) {
   const [teamBlue, setTeamBlue] = useState<string[]>(
     loadedConfig.students.blue
   );
+  const [dataLoaded, setDataLoaded] = useState<boolean>(false);
 
-  function deleteStudent(teamSetter: Function) {
-    return function (index: number) {
-      teamSetter((baseState: string[]) => {
-        const nextState = produce(baseState, (draftState: string[]) => {
-          draftState.splice(index, 1);
-        });
-        return nextState;
-      });
-    };
-  }
-
-  function addStudent(setTeamBlue: Function, studentName: string = "") {
-    setTeamBlue((prev: string[]) => [...prev, studentName]);
-  }
-
-  function toggleStudentTeam(index: number, direction: toggleDirections) {
-    function toggle(
-      index: number,
-      fromTeam: string[],
-      fromTeamSetter: Function,
-      toTeamSetter: Function
-    ) {
-      addStudent(toTeamSetter, fromTeam[index]);
-      deleteStudent(fromTeamSetter)(index);
+  useEffect(() => {
+    const data = locallyLoadData();
+    if (data) {
+      setQuestions(data.questions);
+      setTeamRed(data.students.red);
+      setTeamBlue(data.students.blue);
     }
-    switch (direction) {
-      case "fromBlueToRed":
-        toggle(index, teamBlue, setTeamBlue, setTeamRed);
-        break;
-      case "fromRedToBlue":
-        toggle(index, teamRed, setTeamRed, setTeamBlue);
-        break;
-      default:
-        throw new Error("Unknown student change direction");
+    setDataLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (dataLoaded) {
+      locallySaveEditorData(teamBlue, teamRed, questions);
     }
-  }
-
-  //// ---------------------------------------------------------------------------------------------
-  //// TODO deduplicate and rename
-  function changeTeamBlue(studentname: string, index: number) {
-    setTeamBlue((baseState) => {
-      const nextState = produce(baseState, (draftState: string[]) => {
-        draftState[index] = studentname;
-      });
-      return nextState;
-    });
-  }
-  function changeTeamRed(studentname: string, index: number) {
-    setTeamRed((baseState) => {
-      const nextState = produce(baseState, (draftState: string[]) => {
-        draftState[index] = studentname;
-      });
-      return nextState;
-    });
-  }
-  //// ---------------------------------------------------------------------------------------------
-
-  function addQuestion() {
-    setQuestions((prev) => [...prev, { q: "", a: "" }]);
-  }
-
-  function deleteQuestion(index: number) {
-    setQuestions((prev) => {
-      const newState = [...prev];
-      newState.splice(index, 1);
-      return newState;
-    });
-  }
-
-  function editQuestion(index: number, value: string) {
-    setQuestions((prev) => {
-      const nextState = produce(prev, (draftState) => {
-        draftState[index].q = value;
-      });
-      return nextState;
-    });
-  }
-
-  function editAnswer(index: number, value: string) {
-    setQuestions((prev) => {
-      const nextState = produce(prev, (draftState) => {
-        draftState[index].a = value;
-      });
-      return nextState;
-    });
-  }
+  }, [teamBlue, teamRed, questions, dataLoaded]);
 
   return (
     <Container>
       <button onClick={() => generateTxtFile(teamBlue, teamRed, questions)}>
         Generate .txt Document
       </button>
-      <h3>Blaues Team</h3>
-      <StudentList
-        students={teamBlue}
-        changeStudentName={changeTeamBlue}
-        deleteStudent={deleteStudent(setTeamBlue)}
-        toggleStudentTeam={toggleStudentTeam}
-        toggleDirection={"fromBlueToRed"}
-      />
-      <div>
-        <button onClick={() => addStudent(setTeamBlue)}> + </button>
-      </div>
+      <hr />
       <br />
-      <h3>Rotes Team</h3>
-      <StudentList
-        students={teamRed}
-        changeStudentName={changeTeamRed}
-        deleteStudent={deleteStudent(setTeamRed)}
-        toggleStudentTeam={toggleStudentTeam}
-        toggleDirection={"fromRedToBlue"}
+      <StudentEditorView
+        setTeamRed={setTeamRed}
+        setTeamBlue={setTeamBlue}
+        teamBlue={teamBlue}
+        teamRed={teamRed}
       />
-      <div>
-        <button onClick={() => addStudent(setTeamRed)}> + </button>
-      </div>
-      <h3>Fragen und Antworten</h3>
-      <QuestionList
-        questions={questions}
-        deleteQuestion={deleteQuestion}
-        editQuestion={editQuestion}
-        editAnswer={editAnswer}
-      />
-      <div>
-        <button onClick={addQuestion}> + </button>
-      </div>
+      <hr />
+      <br />
+      <QuestionEditorView setQuestions={setQuestions} questions={questions} />
       <br />
       <br />
     </Container>

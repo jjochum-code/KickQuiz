@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { EduBallFileEditor } from "./EduBallFileEditor";
 import { LoadGame } from "./LoadGame";
@@ -27,15 +27,27 @@ const exampleConfig: IConfig = {
 };
 
 function App() {
+  const [loadedConfig, setLoadedConfig] = useState<IConfig>(exampleConfig);
+
   return (
     <BrowserRouter>
       <div className="App">
         <Routes>
           <Route
             path="/editor"
-            element={<EduBallFileEditor loadedConfig={exampleConfig} />}
+            element={
+              <EduBallFileEditor
+                loadedConfig={loadedConfig}
+                setLoadedConfig={setLoadedConfig}
+              />
+            }
           />
-          <Route path="/" element={<LoadGame loadedConfig={exampleConfig} />} />
+          <Route
+            path="/"
+            element={
+              <LoadGame/>
+            }
+          />
         </Routes>
       </div>
     </BrowserRouter>
