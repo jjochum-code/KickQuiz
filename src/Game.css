@@ -1,566 +1,77 @@
-
 @charset "utf-8";
-/* CSS Document */
-@keyframes bla {
-  0% {position: absolute;}
-  100% {position: absolute;}
-}
-/*-----------------------------HG------------------------*/
-.background{
-  background-image:url(../Assets/2SpielHG.png) ;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 100vh;
+/*-----------------General--------------------*/
+.background {
+    background-image: url(../Assets/playground_from_wish.png);
+    background-position: center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    height: 100vh;
 }
 
-#Schlusspfiff {
-  background-image:url(../Assets/2SpielPfeiffe.png);
-  width: 140px;
-  height: 140px;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-#Schlusspfiff:hover {
-  background-image:url(../Assets/2SpielPfeiffehover.png);
-}
-/*---------------------------------PUNKTE--------------------------------*/
-#PunkteHase {
-  position: absolute;
-  top: 175px;
-  left: 315px;
-  height: 200px;
-  width: 200px;
-  transform-origin:50% 50% 0px;
-  text-align: center;
-  font-size: 200px;
-  overflow: hidden;
-  color:#F30;
-}
-#PunkteMaus {
-  position: absolute;
-  top: 175px;
-  left: 1525px;
-  height: 200px;
-  width: 200px;
-  transform-origin:50% 50% 0px;
-  text-align: center;
-  font-size: 200px;
-  overflow: hidden;
-  color:#06F
-}
-.vertikaleMitte {
-  width: 90px;
-  height: 90px;
-  display: table-cell;
-  vertical-align: middle;
-}
-/*---------------------------------SCHIRI--------------------------------*/
-#SpielSchiriSprite {
-  background-image:url(../Assets/2SpielSchiriSprite1920x1080.png);
-  background-repeat:no-repeat;
-  position: absolute;
-  width: 1920px;
-  height: 1080px;
-  left: 0px;
-  top: 0px;
-  transform-style: preserve-3d;
-  transform: translate3d(0px, 0px, 0px);
-  /*animation: SchiriSprite 5s steps(9) 1 forwards;*/
-}
-@keyframes SchiriSprite {
-  0% { background-position-x: 0px;}
-  100%  { background-position-x: -17220px;}
-}
-#SpielSchiri {
-  position: absolute;
-  width: 1920px;
-  height: 1080px;
-  left: 0px;
-  top: 0px;
-  transform-style: preserve-3d;
-  transform: translate3d(0px, 0px, 0px);
-  /*animation: SchiriAnpfiff 1s ease-in 5s 1 forwards;*/
-}
-@keyframes SchiriAnpfiff {
-  0% {
-    transform: translate3d(0px, 0px, 0px);
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translate3d(0px, 1078px, 0px);
-    animation-timing-function: linear;
-  }
-}
-/*-------------------AUFGABE----------------------*/
-
-#Aufgabe {
-  position: absolute;
-  transform-origin: 50% 50% 0px;
-  padding: 0px;
-  width: 600px;
-  height: 400px;
-  top: 100px;
-  left: 660px;
-  color: rgba(255, 0, 0, 0);
-  /*animation: AufgabeEinblenden 3s linear 6s 1 forwards*/
-}
-.vertikalMitte {
-  width: 600px;
-  height: 400px;
-  display: table-cell;
-  vertical-align: middle;
-}
-@keyframes AufgabeEinblenden {
-  0% {
-    color: rgba(255, 0, 0, 0);
-    animation-timing-function: linear;
-  }
-  0.5% {
-    color: rgb(0, 0, 0);
-    animation-timing-function: linear;
-  }
-  99.5% {
-    color: rgb(0, 0, 0);
-    animation-timing-function: linear;
-  }
-  100% {
-    color: rgba(255, 0, 0, 0);
-    animation-timing-function: linear;
-  }
-}
-/*-------------------------------------HASE SPIELER----------------------------------*/
-#SpielerHaseSprite {
-  background-image:url(../Assets/4SpielHaseSpieler.png);
-  background-repeat:no-repeat;
-  position: absolute;
-  width: 1200px;
-  height: 1080px;
-  left: 0px;
-  top: 0px;
-  transform-style: preserve-3d;
-  /*animation: HaseSpriteIdle 2s steps(4) infinite forwards;
-  animation: HaseSpriteSchuss 2s steps(6) forwards;*/
-}
-@keyframes HaseSpriteIdle {
-  0% { background-position-x: 0px;}
-  100%  { background-position-x: -4800px;}
-}
-@keyframes HaseSpriteSchuss {
-  0% { background-position-x: -4800px;}
-  100%  { background-position-x: -10960px;}
-}
-#SpielerHase {
-  position: absolute;
-  width: 1200px;
-  height: 1080px;
-  left: 0px;
-  top: 0px;
-  transform-style: preserve-3d;
-  transform: translate3d(-1200.05px, 0px, 0px);
-  /*animation: SpielerHaseEinflug 1s ease-in 9s 1 forwards;*/
-}
-@keyframes SpielerHaseEinflug {
-  0% {
-    transform: translate3d(-1200.05px, 0px, 0px);
-    animation-timing-function: ease-in;
-  }
-  80% {
-    transform: translate3d(80px, 0px, 0px);
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translate3d(0px, 0px, 0px);
-    animation-timing-function: linear;
-  }
-}
-@keyframes SpielerHaseAusflug {
-  0% {
-    transform: translate3d(0px, 0px, 0px);
-    animation-timing-function: linear;
-  }
-  20% {
-    transform: translate3d(80px, 0px, 0px);
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translate3d(-1200.05px, 0px, 0px);
-    animation-timing-function: linear;
-  }
-}
-/*---------------------------------MAUS SPIELER--------------------------------*/
-#SpielerMausSprite {
-  background-image:url(../Assets/4SpielMausSpieler.png);
-  background-repeat:no-repeat;
-  position: absolute;
-  width: 1200px;
-  height: 1080px;
-  left: 0px;
-  top: 0px;
-  display:block;
-  transform-style: preserve-3d;
-  /*animation: MausSpriteIdle 2s steps(4) infinite forwards;
-  animation: MausSpriteSchuss 2s steps(6) forwards;*/
-}
-@keyframes MausSpriteIdle {
-  0% { background-position-x: 0px;}
-  100%  { background-position-x: -4800px;}
-}
-@keyframes MausSpriteSchuss {
-  0% { background-position-x: -4800px;}
-  100%  { background-position-x: -9568px;}
-}
-#SpielerMaus {
-  position: absolute;
-  width: 1200px;
-  height: 1080px;
-  left: 936px;
-  top: 18px;
-  transform-style: preserve-3d;
-  transform: translate3d(990px, 0px, 0px);
-  /*animation: SpielerMausEinflug 1s ease-in 9s 1 forwards;*/
-}
-@keyframes SpielerMausEinflug {
-  0% {
-    transform: translate3d(990px, 0px, 0px);
-    left: 936px;
-    top: 18px;
-    animation-timing-function: ease-in;
-  }
-  80% {
-    transform: translate3d(-80px, 0px, 0px);
-    left: 770px;
-    top: 0px;
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translate3d(0px, 0px, 0px);
-    left: 800px;
-    top: 0px;
-    animation-timing-function: linear;
-  }
-}
-@keyframes SpielerMausAusflug {
-  0% {
-    transform: translate3d(0px, 0px, 0px);
-    left: 800px;
-    top: 0px;
-    animation-timing-function: linear;
-  }
-  20% {
-    transform: translate3d(-80px, 0px, 0px);
-    left: 770px;
-    top: 0px;
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translate3d(990px, 0px, 0px);
-    left: 936px;
-    top: 0px;
-    animation-timing-function: linear;
-  }
-}
-/*--------------------------------------NAMEN--------------------------------------*/
-#SpielerNameHase {
-  position: absolute;
-  left: 0px;
-  top: 800px;
-  width: 800px;
-  height: 150px;
-  transform: translate3d(-1200.05px, 0px, 0px);
-  background-color: rgba(255, 255, 255, 1);
-  border-color:#F30;
-  border-radius: 25px;
-  overflow: hidden;
-  line-height:100%;
-  /*animation: SpielerNameHaseEinflug 0.5s linear 9.5s 1 forwards;*/
-}
-@keyframes SpielerNameHaseEinflug {
-  0% {
-    transform: translate3d(-1200.05px, 0px, 0px);
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translate3d(-25px, 0px, 0px);
-    animation-timing-function: linear;
-  }
-}
-@keyframes SpielerNameHaseAusflug {
-  0% {
-    transform: translate3d(-25px, 0px, 0px);
-    animation-timing-function: linear;
-  }
-  100% {
-    transform: translate3d(-1200.05px, 0px, 0px);
-    animation-timing-function: linear;
-  }
-}
-#SpielerNameMaus {
-  position: absolute;
-  left: 1120px;
-  top: 800px;
-  width: 800px;
-  height: 150px;
-  transform: translate3d(990px, 0px, 0px);
-  background-color: rgba(255, 255, 255, 1);
-  border-color:#0FF;
-  border-radius: 25px;
-  overflow: hidden;
-  line-height:100%;
-  /*animation: SpielerNameMausEinflug 0.5s linear 9.5s 1 forwards;*/
-}
-@keyframes SpielerNameMausEinflug {
-  0% {
-    transform: translate3d(990px, 0px, 0px);
-
-  }
-  100% {
-    transform: translate3d(25px, 0px, 0px);
-    animation-timing-function: ease-in;
-  }
-}
-@keyframes SpielerNameMausAusflug {
-  0% {
-    transform: translate3d(25px, 0px, 0px);
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translate3d(990px, 0px, 0px);
-  }
-}
-/*-------------------------------------------------FIGUREN FELD---------------------------------------*/
-@keyframes FeldSpielerIdle {
-  0% { background-position-x: 0px;}
-  100%  { background-position-x: -1400px;}
-}
-@keyframes FeldSpielerSchuss {
-  0% { background-position-x: -1400px;}
-  100%  { background-position-x: -2800px;}
+.background_scale {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: min(1vw, 1.778vh);
 }
 
-@keyframes TorwartSprung {
-  0% { background-position-x: -1400px;}
-  100%  { background-position-x: -3150px;}
-}
-/*--------------HASEN-------------*/
-.FeldHase {
-  background-image:url(../Assets/3SpielHasefeld.png);
-  position: absolute;
-  width: 350px;
-  height: 450px;
-  animation: FeldSpielerIdle 2s steps(4) infinite forwards;
-  /* animation: FeldSpielerSchuss 1s steps(4) 1 forwards; */
-}
-#FeldHase1 {
-  left: 540px;
-  top: 500px;
-}
-#FeldHase2 {
-  transform: scale3d(0.80,0.80,0.80);
-  transform-style: preserve-3d;
-  left: 390px;
-  top: 295px;
-  animation-delay: -0.15s;
-}
-#TorHase {
-  background-image:url(../Assets/3SpielHaseTorwart.png);
-  position: absolute;
-  width: 350px;
-  height: 450px;
-  left: 1390px;
-  top: 320px;
-  transform: scale3d(0.90,0.90,0.90);
-  animation: FeldSpielerIdle 2s steps(4) infinite forwards;
-  animation-delay: -0.85s;
-}
-.FeldMaus {
-  background-image:url(../Assets/3SpielMausfeld.png);
-  position: absolute;
-  width: 350px;
-  height: 450px;
-  animation: FeldSpielerIdle 2s steps(4) infinite forwards;
-  animation-delay: -0.25s;
-}
-#FeldMaus2 {
-  left: 1145px;
-  top:530px;
-  animation-delay: -0.45s;
-}
-#FeldMaus1 {
-  transform: scale3d(.85,.85,.85);
-  transform-style:preserve-3d;
-  left: 925px;
-  top: 350px;
-}
-#TorMaus {
-  background-image:url(../Assets/3SpielMausTorwart.png);
-  position: absolute;
-  width: 350px;
-  height: 450px;
-  left: 80px;
-  top: 320px;
-  transform: scale3d(0.90,0.90,0.90);
-  animation: FeldSpielerIdle 2s steps(4) infinite forwards;
-  animation-delay: -0.65s;
-}
-/*--------------------------------------BALL--------------------------------------*/
-#SpielBall {
-  background-image:url(../Assets/3SpielBall.png);
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: fixed;
-  width:5%;
-  height:5%;
-  left: 47%;
-  top: 62%;
-  transform: scale3d(0.85,0.85,0.85);
-  transform-style: preserve-3d;
-}
-@keyframes FeldHase2-TorHase {
-  0% {
-    left: 505px;
-    top: 605px;
-    transform: scale3d(0.8,0.8,0.8);
-  }
-  99% {
-    left: 115px;
-    top: 515px;
-    transform: scale 3d(1,1,1);
-  }
-  100% {
-    left: 900px;
-    top: 670px;
-    transform: scale3d(0.85,0.85,0.85);
-  }
-}
-@keyframes FeldHase2-FeldHase1 {
-  0% {
-    left: 505px;
-    top: 605px;
-    transform: scale3d(0.8,0.8,0.8);
-  }
-  100% {
-    left: 682px;
-    top: 870px;
-    transform: scale 3d(1,1,1);
-  }
-
-}
-@keyframes FeldHase1-FeldHase2 {
-  0% {
-    left: 682px;
-    top: 870px;
-    transform: scale 3d(1,1,1);
-  }
-  100% {
-    left: 505px;
-    top: 605px;
-    transform: scale3d(0.8,0.8,0.8);
-  }
-}
-@keyframes FeldHase1-Mitte {
-  0% {
-    left: 682px;
-    top: 870px;
-    transform: scale 3d(1,1,1);
-  }
-  100% {
-    left: 900px;
-    top: 670px;
-    transform: scale3d(0.85,0.85,0.85);
-  }
-}
-@keyframes Mitte-FeldHase1 {
-  0% {
-    left: 900px;
-    top: 670px;
-    transform: scale3d(0.85,0.85,0.85);
-  }
-  100% {
-    left: 682px;
-    top: 870px;
-    transform: scale 3d(1,1,1);
-  }
-}
-@keyframes FeldMaus1-Mitte {
-  0% {
-    left: 1053px;
-    top: 670px;
-    transform: scale 3d(0.85,0.85,0.85);
-  }
-  100% {
-    left: 900px;
-    top: 670px;
-    transform: scale3d(0.85,0.85,0.85);
-  }
-}
-@keyframes Mitte-FeldMaus1 {
-  0% {
-    left: 900px;
-    top: 670px;
-    transform: scale3d(0.85,0.85,0.85);
-  }
-  100% {
-    left: 1053px;
-    top: 670px;
-    transform: scale 3d(0.85,0.85,0.85);
-  }
-}
-@keyframes FeldMaus2-FeldMaus1 {
-  0% {
-    left: 1269px;
-    top: 883px;
-    transform: scale 3d(1,1,1);
-  }
-  100% {
-    left: 1053px;
-    top: 670px;
-    transform: scale 3d(0.85,0.85,0.85);
-  }
-}
-@keyframes FeldMaus1-FeldMaus2 {
-  0% {
-    left: 1053px;
-    top: 670px;
-    transform: scale 3d(0.85,0.85,0.85);
-  }
-  100% {
-    left: 1269px;
-    top: 883px;
-    transform: scale 3d(1,1,1);
-  }
-}
-@keyframes FeldMaus2-TorMaus {
-  0% {
-    left: 1269px;
-    top: 883px;
-    transform: scale 3d(1,1,1);
-  }
-  99% {
-    left: 1651px;
-    top: 487px;
-    transform: scale 3d(0.85,0.85,0.85);
-  }
-  100% {
-    left: 900px;
-    top: 670px;
-    transform: scale3d(0.85,0.85,0.85);
-  }
-}
-/*------------------------TOOOOR--------------------------------*/
-#Tooor {
-  background-image:url(../Assets/5SpielTOR.png);
-  background-repeat:no-repeat;
-  position:absolute;
-  width:1920px;
-  height:1080px;
-  top: 0px;
-  left: 1920px;
-  transform-style: preserve-3d;
+/*-----------------Score and questions aka upper 50% of the screen--------------------*/
+.questionboard {
+    background-image: url(../Assets/question_board.png);
+    background-position: center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    height: 40vh;
+    width: 40vw;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-@keyframes Tor{
-  0% {left: 1920px;}
-  100%  {left: -1920px;}
+.questionboardinner {
+    background-color: red;
+    height: 90%;
+    width: 90%;
+    margin: auto;
+    text-align: center;
+}
+
+
+/*-----------------Playground aka lower 50% of the screen--------------------*/
+.playground {
+    background-image: url(../Assets/playground.png);
+    background-position: center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    object-fit: scale-down;
+}
+
+.playground_scale {
+    background-image: url(../Assets/goal_wish.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100em;
+    height: 56.25em;
+}
+
+.ball {
+    background-image: url(../Assets/3SpielBall.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 5em;
+    height: 5em;
+    position: relative;
+    top: 35em;
+    left: 48em;
 }
