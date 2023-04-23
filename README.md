@@ -5,22 +5,9 @@ Webbasiertes Lernspiel für den Browser. Dabei wird die Schulklasse in zwei Team
 
 ## Getting Started
 
-Zuerst muss man sich eine txt-Datei mit den Schülern und den gewünschten Aufgaben erzeugen. Dazu dient auch die startSeite.html als Hilfe, hier kann diese Datei erzeugt werden.
+Zuerst muss man die Schüler und Fragen im Editor anlegen. Schüler und Fragen könnten als .txt Datei gespeichert und wieder geladen werden.
 
-Die txt-Datei soll folgendes Format haben:
 
-```
-name1,name2,name3,name4
-name5,name6,name7,name8
-7+7 = 14
-8*5 = 40
-...
-```
-Dabei sind name1 bis name4 in Team 1 (blau), name5 bis name8 in Team 2 (rot).
-Bei ungerader Spieleranzahl soll Team 1 immer das größere Team sein!
-
-Das eigentliche Spiel startet bei Aufruf der Game.html. 
-Dort muss man zuerst die erstellte txt-Datei auswählen und anschließend startet das Spiel. 
 
 Das Bewegen des Balls erfolgt per Toucheingabe in das gewünschte Feld oder per Mausklick, sowie durch Nutzung der Pfeiltasten auf der Tastatur.
 
@@ -42,7 +29,7 @@ JavaScript muss auf dem Browser verfügbar sein.
 * **Julius Herrmann** - [JuliusHerrmann](https://github.com/JuliusHerrmann)
 * **Laura Lücke** - [PandaRouxDesign](https://github.com/PandaRouxDesign)
 * **Julian Rederle** - [Julian-Rederle](https://github.com/Julian-Rederle)
-* **Stefan DW** - [swd-ps](https://github.com/sdw-ps)
+* **Stefan Dausend-Werner** - [swd-ps](https://github.com/sdw-ps)
 
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
