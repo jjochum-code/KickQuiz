@@ -28,8 +28,6 @@ const exampleConfig: IConfig = {
 
 function App() {
   const [loadedConfig, setLoadedConfig] = useState<IConfig>(exampleConfig);
-  console.log(loadedConfig);
-  const [selectedFile, setSelectedFile] = useState();
 
   return (
     <BrowserRouter>
@@ -39,8 +37,6 @@ function App() {
             path="/editor"
             element={
               <EduBallFileEditor
-                selectedFile={selectedFile}
-                setSelectedFile={setSelectedFile}
                 loadedConfig={loadedConfig}
                 setLoadedConfig={setLoadedConfig}
               />
@@ -49,10 +45,7 @@ function App() {
           <Route
             path="/"
             element={
-              <LoadGame
-                selectedFile={selectedFile}
-                setSelectedFile={setSelectedFile}
-              />
+              <LoadGame/>
             }
           />
         </Routes>

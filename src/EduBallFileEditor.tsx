@@ -9,13 +9,9 @@ import { Container } from "@mui/material";
 import { dataIndex } from "./constStrings";
 
 export function EduBallFileEditor({
-  selectedFile,
-  setSelectedFile,
   loadedConfig,
   setLoadedConfig,
 }: {
-  selectedFile: any;
-  setSelectedFile: Function;
   loadedConfig: IConfig;
   setLoadedConfig: Function;
 }) {
@@ -27,6 +23,8 @@ export function EduBallFileEditor({
     loadedConfig.students.blue
   );
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
+  const [selectedFileQuestions, setSelectedFileQuestions] = useState();
+  const [selectedFilePlayers, setSelectedFilePlayers] = useState();
   useEffect(() => {
     const data = loadData();
     if (data) {
@@ -43,9 +41,17 @@ export function EduBallFileEditor({
     }
   }, [teamBlue, teamRed, questions, dataLoaded]);
 
-  function reloadFile() {
+  function chooseFile(event: any, func: Function) {
+          try{
+              func(event!.target.files![0]);
+          } catch(x) {
+              alert("Die datei konnte nicht gelesen werden: " + x);
+          }
+  }
+
+  function reloadFile(file: any, func: Function) {
     try {
-      selectedFile.text().then((x: string) => setLoadedConfig(parseConfig(x)));
+      file.text().then((x: string) => func(x));
     } catch (log) {
       alert(
         "Ein fehler beim lesen der Datei ist eingetreten. Bitte geben sie das an einen IT-Experten ihres vertrauens: " +
@@ -54,7 +60,7 @@ export function EduBallFileEditor({
     }
   }
 
-  function parseConfig(input: string) {
+  function parseConfigQuestions(input: string) {
       // regex to filter questions
       const regexQuestions: RegExp = /(((?:fr*a*g*e*:)+)(?<q>[\n!?.,a-z0-9: äöü()=<>$"']*?)(?:an*t*w*o*r*t*:)(?<a>[\n!?.,a-z0-9 :äöü()=<>$"']*?))(?:(?=\2)|$)/gi
       const matchesQuestions = input.matchAll(regexQuestions); 
@@ -74,13 +80,20 @@ export function EduBallFileEditor({
       }
       setQuestions(allQuestions);
 
-      let studentsNew = {red: ["ha"], blue: ["he"]};
+      setLoadedConfig((baseState: IConfig) => ({students: baseState.students, questions: allQuestions}));
+  }
 
-      setLoadedConfig(() => {
-            return {students: studentsNew, questions: allQuestions};
-          });
-      console.log(allQuestions)
-      console.log(loadedConfig)
+  function parseConfigPlayers(input: string) {
+      let splitInput = input.split("\n");
+      let regexBlue = /bl+a+u+e+s+ + t+e+a+m+:/i
+      let regexRed = /ro+t+e+s+ + t+e+a+m+:/i
+      // remove empty lines
+      splitInput = splitInput.filter(x => x.length > 0);
+      let firstTeamBlue = false;
+      if (regexBlue.test(splitInput[0])){
+          firstTeamBlue = true;
+      }
+      console.log(splitInput);
   }
 
   function deleteStudent(teamSetter: Function) {
@@ -176,7 +189,11 @@ export function EduBallFileEditor({
       <button onClick={() => generateTxtFile(teamBlue, teamRed, questions)}>
         Generate .txt Document
       </button>
-      <button onClick={() => reloadFile()}>Generate .txt Document</button>
+      <input type="file" name="file" onChange={(event) => {chooseFile(event, setSelectedFileQuestions)}}/>
+      <button onClick={() => reloadFile(selectedFileQuestions, parseConfigQuestions)}>Fragen Laden</button>
+
+      <input type="file" name="file" onChange={(event) => {chooseFile(event, setSelectedFilePlayers)}}/>
+      <button onClick={() => reloadFile(selectedFilePlayers, parseConfigPlayers)}>SpielerLaden</button>
       <h3>Blaues Team</h3>
       <StudentList
         students={teamBlue}
