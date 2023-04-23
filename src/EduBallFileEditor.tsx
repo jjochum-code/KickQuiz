@@ -85,15 +85,28 @@ export function EduBallFileEditor({
 
   function parseConfigPlayers(input: string) {
       let splitInput = input.split("\n");
-      let regexBlue = /bl+a+u+e+s+ + t+e+a+m+:/i
-      let regexRed = /ro+t+e+s+ + t+e+a+m+:/i
+      let regexBlue = /bl+a+u+e+s+ +t+e+a+m+:/i
+      let regexBlueFirst = /(?:bl+a+u+e+s+ +t+e+a+m+:)(?<bt>([a-zöäü\n]*?))(?:ro+t+e+s+ t+e+a+m+:)(?<rt>[a-zöäü\n]*)/i
+      let regexRedFirst = /(?:ro+t+e+s+ t+e+a+m+:)(?<bt>([a-zöäü\n]*?))(?:bl+a+u+e+s+ +t+e+a+m+:)(?<rt>[a-zöäü\n]*)/i
       // remove empty lines
       splitInput = splitInput.filter(x => x.length > 0);
-      let firstTeamBlue = false;
+
+      let match;
       if (regexBlue.test(splitInput[0])){
-          firstTeamBlue = true;
+          match = input.match(regexBlueFirst);
+      } else {
+          match = input.match(regexRedFirst);
       }
-      console.log(splitInput);
+      if (match === null || match.groups === null) {
+          alert("Die Spielerdatei konnte nicht geladen werden :(");
+          return;
+      }
+      let redTeam = match.groups!.rt.split("\n").filter((x) => x.length > 0);
+      let blueTeam = match.groups!.bt.split("\n").filter((x) => x.length > 0);
+
+      setTeamRed(redTeam);
+      setTeamBlue(blueTeam);
+      // setLoadedConfig((baseState: IConfig) => ({student: {red: redTeam, blue: blueTeam}, questions: baseState.questions}));
   }
 
   function deleteStudent(teamSetter: Function) {
