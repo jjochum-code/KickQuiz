@@ -1,5 +1,5 @@
 import React from "react";
-import { toggleDirections } from "./interfaces";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { Button, TextField, Box, Typography } from "@mui/material";
@@ -50,7 +50,9 @@ export function StudentList({
             onChange={(e) => changeStudentName(e.target.value, index)}
           />
           &nbsp;&nbsp;&nbsp;
-          <button onClick={() => deleteStudent(index)}>X</button>
+          <Button onClick={() => deleteStudent(index)}>
+            <PersonRemoveIcon />
+          </Button>
           {position === "left" && (
             <>
               &nbsp;&nbsp;&nbsp;
