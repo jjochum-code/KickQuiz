@@ -2,33 +2,39 @@ import React from "react";
 import { toggleDirections } from "./interfaces";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import { Button, TextField, Box } from "@mui/material";
+import { Button, TextField, Box, Typography } from "@mui/material";
+import { AddStudent } from "./Editor/Students/AddStudent";
 
 interface IStudentListProp {
+  headline: string;
   students: string[];
   changeStudentName: Function;
   deleteStudent: Function;
+  addStudent: () => void;
   toggleStudentTeam: Function;
-  toggleDirection: toggleDirections;
   position: "left" | "right";
 }
 
 export function StudentList({
+  headline,
   students,
   changeStudentName,
   deleteStudent,
   toggleStudentTeam,
-  toggleDirection,
   position,
+  addStudent,
 }: IStudentListProp) {
   return (
     <>
+      <Typography variant={"h2"} component={"h2"} padding={1} paddingBottom={3}>
+        {headline} ({students.length})
+      </Typography>
       {students.map((student, index) => (
         <Box key={index} sx={{ display: "flex" }} padding={1}>
           {position === "right" && (
             <>
               <Button
-                onClick={() => toggleStudentTeam(index, toggleDirection)}
+                onClick={() => toggleStudentTeam(index)}
                 variant="contained"
               >
                 <KeyboardDoubleArrowLeftIcon />
@@ -49,7 +55,7 @@ export function StudentList({
             <>
               &nbsp;&nbsp;&nbsp;
               <Button
-                onClick={() => toggleStudentTeam(index, toggleDirection)}
+                onClick={() => toggleStudentTeam(index)}
                 variant="contained"
               >
                 <KeyboardDoubleArrowRightIcon />
@@ -58,6 +64,7 @@ export function StudentList({
           )}
         </Box>
       ))}
+      <AddStudent onClickCallBack={() => addStudent()} />
     </>
   );
 }

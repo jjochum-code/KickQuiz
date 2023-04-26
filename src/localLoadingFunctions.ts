@@ -18,6 +18,8 @@ export function mergeData(
 }
 
 export function locallySaveData(config: IConfig): void {
+  console.debug("config");
+  console.debug(config);
   localStorage.setItem(dataIndex, JSON.stringify(config, null, 2));
 }
 

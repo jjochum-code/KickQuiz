@@ -4,7 +4,9 @@ import { StudentList } from "./StudentList";
 import { produce } from "immer";
 import { toggleDirections } from "./interfaces";
 import { SaveTeams } from "./SaveTeams";
-import { Box, Paper } from "@mui/material";
+import { Box, Paper, Button, Typography } from "@mui/material";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import { AddStudent } from "./Editor/Students/AddStudent";
 
 interface IProps {
   setTeamRed: Function;
@@ -30,31 +32,35 @@ export function StudentEditorView({
     };
   }
 
-  function addStudent(teamSetter: Function, studentName: string = "") {
-    teamSetter((prev: string[]) => [...prev, studentName]);
-    console.debug(teamBlue);
+  function addStudent(teamSetter: Function) {
+    return function (studentName: string = "") {
+      teamSetter((prev: string[]) => [...prev, studentName]);
+      console.debug(teamBlue);
+    };
   }
 
-  function toggleStudentTeam(index: number, direction: toggleDirections) {
-    function toggle(
-      index: number,
-      fromTeam: string[],
-      fromTeamSetter: Function,
-      toTeamSetter: Function
-    ) {
-      addStudent(toTeamSetter, fromTeam[index]);
-      deleteStudent(fromTeamSetter)(index);
-    }
-    switch (direction) {
-      case "fromBlueToRed":
-        toggle(index, teamBlue, setTeamBlue, setTeamRed);
-        break;
-      case "fromRedToBlue":
-        toggle(index, teamRed, setTeamRed, setTeamBlue);
-        break;
-      default:
-        throw new Error("Unknown student change direction");
-    }
+  function toggleStudentTeam(direction: toggleDirections) {
+    return function (index: number) {
+      function toggle(
+        index: number,
+        fromTeam: string[],
+        fromTeamSetter: Function,
+        toTeamSetter: Function
+      ) {
+        addStudent(toTeamSetter)(fromTeam[index]);
+        deleteStudent(fromTeamSetter)(index);
+      }
+      switch (direction) {
+        case "fromBlueToRed":
+          toggle(index, teamBlue, setTeamBlue, setTeamRed);
+          break;
+        case "fromRedToBlue":
+          toggle(index, teamRed, setTeamRed, setTeamBlue);
+          break;
+        default:
+          throw new Error("Unknown student change direction");
+      }
+    };
   }
 
   //// ---------------------------------------------------------------------------------------------
@@ -84,39 +90,33 @@ export function StudentEditorView({
       <SaveTeams teamBlue={teamBlue} teamRed={teamRed} />
       <br />
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Box padding={1} sx={{ display: "flex" }}>
+        <Box paddingRight={1} sx={{ flexGrow: 1 }}>
           <Paper>
             <Box padding={1}>
-              <h3>Blaues Team</h3>
               <StudentList
+                headline="Blaues Team"
                 students={teamBlue}
                 changeStudentName={changeTeamBlue}
                 deleteStudent={deleteStudent(setTeamBlue)}
-                toggleStudentTeam={toggleStudentTeam}
-                toggleDirection={"fromBlueToRed"}
+                addStudent={addStudent(setTeamBlue)}
+                toggleStudentTeam={toggleStudentTeam("fromBlueToRed")}
                 position="left"
               />
-              <div>
-                <button onClick={() => addStudent(setTeamBlue)}> + </button>
-              </div>
             </Box>
           </Paper>
         </Box>
-        <Box padding={1}>
+        <Box paddingLeft={1} sx={{ flexGrow: 1 }}>
           <Paper>
             <Box padding={1}>
-              <h3>Rotes Team</h3>
               <StudentList
+                headline="Rotes Team"
                 students={teamRed}
                 changeStudentName={changeTeamRed}
                 deleteStudent={deleteStudent(setTeamRed)}
-                toggleStudentTeam={toggleStudentTeam}
-                toggleDirection={"fromRedToBlue"}
+                toggleStudentTeam={toggleStudentTeam("fromRedToBlue")}
+                addStudent={addStudent(setTeamRed)}
                 position="right"
               />
-              <div>
-                <button onClick={() => addStudent(setTeamRed)}> + </button>
-              </div>
             </Box>
           </Paper>
         </Box>
