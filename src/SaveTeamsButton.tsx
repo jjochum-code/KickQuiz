@@ -2,20 +2,29 @@ import React from "react";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import { Button } from "@mui/material";
 import fileDownload from "js-file-download";
+import { SxProps } from "@mui/system";
+import { Theme } from "@mui/material/styles";
 
 interface IProps {
   teamBlue: string[];
   teamRed: string[];
+  sx?: SxProps<Theme>;
 }
 
-export function SaveTeams({ teamBlue, teamRed }: IProps): JSX.Element {
+export function SaveTeamsButton({
+  teamBlue,
+  teamRed,
+  sx,
+}: IProps): JSX.Element {
   return (
-    <div>
-      <Button variant="contained" onClick={() => saveTeams(teamBlue, teamRed)}>
-        <SaveAltIcon />
-        &nbsp;&nbsp; Teams Speichern
-      </Button>
-    </div>
+    <Button
+      variant="contained"
+      onClick={() => saveTeams(teamBlue, teamRed)}
+      sx={sx}
+    >
+      <SaveAltIcon />
+      &nbsp;&nbsp; Teams Speichern
+    </Button>
   );
 }
 

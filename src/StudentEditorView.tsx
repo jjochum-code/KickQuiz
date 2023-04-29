@@ -1,9 +1,9 @@
 import React from "react";
-import { LoadTeams } from "./LoadTeams";
+import { LoadTeamsButton } from "./LoadTeamsButton";
 import { StudentList } from "./StudentList";
 import { produce } from "immer";
 import { toggleDirections } from "./interfaces";
-import { SaveTeams } from "./SaveTeams";
+import { SaveTeamsButton } from "./SaveTeamsButton";
 import { Box, Paper, Button, Typography } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { AddStudent } from "./Editor/Students/AddStudent";
@@ -86,11 +86,33 @@ export function StudentEditorView({
   return (
     <>
       <br />
-      <LoadTeams setTeamRed={setTeamRed} setTeamBlue={setTeamBlue} />
-      <SaveTeams teamBlue={teamBlue} teamRed={teamRed} />
+
       <br />
+      <Typography variant="h2" component="h2">
+        Teams
+      </Typography>
+      <br />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          gap: 2,
+          paddingBottom: 2,
+        }}
+      >
+        <LoadTeamsButton
+          setTeamRed={setTeamRed}
+          setTeamBlue={setTeamBlue}
+          sx={{ flexGrow: 1, flexBasis: 0 }}
+        />
+        <SaveTeamsButton
+          teamBlue={teamBlue}
+          teamRed={teamRed}
+          sx={{ flexGrow: 1, flexBasis: 0 }}
+        />
+      </Box>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Box paddingRight={1} sx={{ flexGrow: 1 }}>
+        <Box paddingRight={1} sx={{ flexGrow: 1, flexBasis: 1 }}>
           <Paper>
             <Box padding={1}>
               <StudentList
@@ -105,7 +127,7 @@ export function StudentEditorView({
             </Box>
           </Paper>
         </Box>
-        <Box paddingLeft={1} sx={{ flexGrow: 1 }}>
+        <Box paddingLeft={1} sx={{ flexGrow: 1, flexBasis: 1 }}>
           <Paper>
             <Box padding={1}>
               <StudentList

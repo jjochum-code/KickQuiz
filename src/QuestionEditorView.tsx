@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { IQuestions } from "./interfaces";
-import { LoadQuestions } from "./LoadQuestions";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { QuestionList } from "./QuestionList";
 import { produce } from "immer";
 import { SaveQuestions } from "./SaveQuestions";
@@ -12,8 +12,7 @@ import {
   AccordionSummary,
   Button,
 } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { LoadStudentsButton } from "./LoadStudentsButton";
+import { LoadQuestionsButton } from "./LoadQuestionsButton";
 
 interface IProps {
   questions: IQuestions[];
@@ -24,6 +23,8 @@ export function QuestionEditorView({
   questions,
   setQuestions,
 }: IProps): JSX.Element {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   function addQuestion() {
     setQuestions((prev: IQuestions[]) => [...prev, { q: "", a: "" }]);
   }
@@ -57,26 +58,36 @@ export function QuestionEditorView({
   return (
     <div>
       <br />
+      <br />
       <div>
-        <Accordion>
+        <Typography variant="h2" component="h2">
+          Fragen und Antworten
+        </Typography>
+        <br />
+        <Box sx={{ display: "flex", gap: 2 }} paddingBottom={2}>
+          <Box sx={{ flexGrow: 1, flexBasis: 1 }}>
+            <LoadQuestionsButton setQuestions={setQuestions} />
+          </Box>
+          <Box sx={{ flexGrow: 1, flexBasis: 1 }}>
+            <SaveQuestions questions={questions} />
+          </Box>
+        </Box>
+        <Accordion
+          disableGutters={true}
+          expanded={isOpen}
+          onChange={() => setIsOpen((prev) => !prev)}
+        >
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            //expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
+            sx={{ display: "flex" }}
           >
-            <Typography variant="h3" component="h2">
-              Fragen und Antworten
-            </Typography>
+            <Button sx={{ flexGrow: 1 }} variant={"contained"}>
+              Fragen und Antworten {isOpen ? "ausblenden" : "anzeigen"}
+            </Button>
           </AccordionSummary>
           <AccordionDetails>
-            <Box sx={{ display: "flex" }}>
-              <Box sx={{ width: "100%" }} paddingRight={1} paddingY={1}>
-                <LoadStudentsButton setQuestions={setQuestions} />
-              </Box>
-              <Box sx={{ width: "100%" }} paddingLeft={1} paddingY={1}>
-                <SaveQuestions questions={questions} />
-              </Box>
-            </Box>
             <QuestionList
               questions={questions}
               deleteQuestion={deleteQuestion}
@@ -90,7 +101,7 @@ export function QuestionEditorView({
               onClick={addQuestion}
               sx={{ minWidth: "100%" }}
             >
-              +
+              <PlaylistAddIcon /> &nbsp;&nbsp; Frage hinzufügen
             </Button>
           </Box>
         </Accordion>

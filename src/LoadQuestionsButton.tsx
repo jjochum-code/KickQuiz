@@ -10,7 +10,7 @@ import { chooseFile } from "./fileLoaderFunctions";
 import { LoadQuestions } from "./LoadQuestions";
 import { Box } from "@mui/material";
 
-export function LoadStudentsButton({
+export function LoadQuestionsButton({
   setQuestions,
 }: {
   setQuestions: Function;
@@ -47,7 +47,7 @@ export function LoadStudentsButton({
             <Box paddingTop={0.5} paddingRight={1}>
               <UploadFileIcon />
             </Box>
-            <p>Fragen Laden</p>
+            Fragen Laden
           </Box>
         </DialogTitle>
         <DialogContent>
@@ -57,7 +57,8 @@ export function LoadStudentsButton({
               {" "}
               Ihre aktuellen Fragen werden dabei überschrieben.
             </strong>{" "}
-            Speichern sie die aktuellen Fragen, wenn Sie sie behalten möchten.
+            Speichern sie die aktuellen Fragen vorher, wenn Sie sie behalten
+            möchten.
             <br />
           </DialogContentText>
         </DialogContent>

@@ -26,7 +26,7 @@ export function StudentList({
 }: IStudentListProp) {
   return (
     <>
-      <Typography variant={"h2"} component={"h2"} padding={1} paddingBottom={3}>
+      <Typography variant={"h4"} component={"h3"} padding={1} paddingBottom={3}>
         {headline} ({students.length})
       </Typography>
       {students.map((student, index) => (

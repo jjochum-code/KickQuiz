@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { chooseFile, reloadFile } from "./fileLoaderFunctions";
-import { Button } from "@mui/material";
-import FolderOpenIcon from "@mui/icons-material/FolderOpen";
+import React, { useCallback } from "react";
+import { FileLoader } from "./Editor/FileLoader";
+
+//// TODO LoadTeams and LoadQuestions is basically the same, abstract
 
 interface IProps {
   setQuestions: Function;
@@ -12,8 +12,6 @@ export function LoadQuestions({
   setQuestions,
   finishedCallback,
 }: IProps): JSX.Element {
-  const [selectedFileQuestions, setSelectedFileQuestions] = useState();
-
   const parseConfigQuestions = useCallback(
     (input: string) => {
       // regex to filter questions
@@ -39,24 +37,11 @@ export function LoadQuestions({
     [setQuestions]
   );
 
-  useEffect(() => {
-    if (selectedFileQuestions) {
-      reloadFile(selectedFileQuestions, parseConfigQuestions);
-      finishedCallback();
-    }
-  }, [selectedFileQuestions, parseConfigQuestions]);
-
   return (
-    <Button variant="contained" component="label">
-      <FolderOpenIcon />
-      &nbsp;&nbsp; Datei Öffnen
-      <input
-        type="file"
-        hidden
-        onChange={(event) => {
-          chooseFile(event, setSelectedFileQuestions);
-        }}
-      />
-    </Button>
+    <FileLoader
+      parseFileContent={parseConfigQuestions}
+      buttonText="Datei Öffnen"
+      finishedCallback={finishedCallback}
+    />
   );
 }

@@ -49,7 +49,6 @@ export function EduBallFileEditor({
         teamBlue={teamBlue}
         teamRed={teamRed}
       />
-      <hr />
       <br />
       <QuestionEditorView setQuestions={setQuestions} questions={questions} />
       <br />
