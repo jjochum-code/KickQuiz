@@ -18,9 +18,30 @@ export function QuestionList({
 }: IQuestionListProps) {
   return (
     <>
+      {/* Not sure if this is a good idea... */}
+      <style>
+        {`
+          @keyframes expandPaper {
+            0% {
+              max-height: 0;
+            }
+            100% {
+              max-height: 145px;
+            }
+          }
+        `}
+      </style>
       {questions.map(({ q, a }, index) => (
         <Box paddingY={1}>
-          <Paper elevation={3} key={index}>
+          <Paper
+            key={index}
+            sx={{
+              overflow: "hidden",
+              animation: (theme) => `
+              expandPaper ${theme.transitions.duration.standard}ms ${theme.transitions.easing.easeInOut} forwards
+            `,
+            }}
+          >
             <Box
               padding={1}
               sx={{

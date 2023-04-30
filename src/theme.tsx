@@ -63,6 +63,14 @@ export const theme = createTheme({
         },
       },
     },
+    MuiInputBase: {
+      styleOverrides: {
+        input: {
+          fontSize: "18px", // Adjust the font size as needed
+          fontWeight: 500,
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {

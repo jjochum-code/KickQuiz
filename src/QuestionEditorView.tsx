@@ -3,6 +3,7 @@ import { IQuestions } from "./interfaces";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import { QuestionList } from "./QuestionList";
 import { produce } from "immer";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { SaveQuestions } from "./SaveQuestions";
 import {
   Typography,
@@ -84,7 +85,24 @@ export function QuestionEditorView({
             sx={{ display: "flex" }}
           >
             <Button sx={{ flexGrow: 1 }} variant={"contained"}>
-              Fragen und Antworten {isOpen ? "ausblenden" : "anzeigen"}
+              <ArrowBackIosNewIcon
+                sx={{
+                  transform: isOpen ? "rotate(270deg)" : "rotate(90deg)",
+                  transition: (theme) =>
+                    theme.transitions.create("transform", {
+                      duration: theme.transitions.duration.complex,
+                    }),
+                }}
+              />
+              <Box
+                sx={{
+                  width: "300px",
+                  textAlign: "left",
+                }}
+              >
+                &nbsp;&nbsp; Fragen und Antworten{" "}
+                {isOpen ? "ausblenden" : "anzeigen"}
+              </Box>
             </Button>
           </AccordionSummary>
           <AccordionDetails>
