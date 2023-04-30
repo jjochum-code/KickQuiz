@@ -84,7 +84,24 @@ export function StudentEditorView({
   return (
     <>
       <br />
-
+      <Typography variant="h4" component="h4">
+        Todos
+      </Typography>
+      <ul>
+        <li>move components to appropriate folders</li>
+        <li>animate add student</li>
+        <li>animate remove student</li>
+        <li>animate remove question</li>
+        <li>check components, refactor if necessary</li>
+        <li>refactor changeTeamBlue and same for red</li>
+        <li>remove paper behind questions</li>
+        <li>move add student button outside of paper</li>
+        <li>make headlines bold</li>
+      </ul>
+      <br />
+      <br />
+      <hr />
+      <br />
       <br />
       <Typography variant="h2" component="h2">
         Teams
