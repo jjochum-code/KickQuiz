@@ -1,5 +1,3 @@
-import { xor } from "../Tools/functions";
-
 export function parseConfigPlayers(input: string): {
   blueTeam: string[];
   redTeam: string[];

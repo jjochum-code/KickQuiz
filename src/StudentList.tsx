@@ -50,7 +50,11 @@ export function StudentList({
             onChange={(e) => changeStudentName(e.target.value, index)}
           />
           &nbsp;&nbsp;&nbsp;
-          <Button onClick={() => deleteStudent(index)}>
+          <Button
+            onClick={() => deleteStudent(index)}
+            color={"warning"}
+            variant="contained"
+          >
             <PersonRemoveIcon />
           </Button>
           {position === "left" && (

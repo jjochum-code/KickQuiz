@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { chooseFile, reloadFile } from "./fileLoaderFunctions";
+import React from "react";
 import Button from "@mui/material/Button";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import Dialog from "@mui/material/Dialog";
@@ -40,6 +39,7 @@ export function LoadTeamsButton({
         component="label"
         onClick={handleClickOpen}
         sx={sx}
+        color={"secondary"}
       >
         <UploadFileIcon />
         &nbsp;&nbsp; Teams Laden
@@ -71,7 +71,9 @@ export function LoadTeamsButton({
         </DialogContent>
         <DialogActions>
           <Box padding={1}>
-            <Button onClick={handleClose}>Abbrechen</Button>
+            <Button onClick={handleClose} color={"secondary"}>
+              Abbrechen
+            </Button>
             &nbsp;&nbsp;&nbsp;
             <LoadTeams
               setTeamBlue={setTeamBlue}

@@ -53,6 +53,7 @@ export function QuestionList({
                 <Button
                   variant="contained"
                   onClick={() => deleteQuestion(index)}
+                  color={"warning"}
                 >
                   <DeleteOutlineIcon />
                 </Button>

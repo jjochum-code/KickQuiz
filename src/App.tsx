@@ -5,6 +5,8 @@ import { FootballField } from "./FootballField";
 import { LoadGame } from "./LoadGame";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { IConfig } from "./interfaces";
+import { theme } from "./theme";
+import { ThemeProvider } from "@mui/material";
 
 const exampleConfig: IConfig = {
   students: {
@@ -31,33 +33,25 @@ function App() {
   const [loadedConfig, setLoadedConfig] = useState<IConfig>(exampleConfig);
 
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Routes>
-          <Route
-            path="/editor"
-            element={
-              <EduBallFileEditor
-                loadedConfig={loadedConfig}
-                setLoadedConfig={setLoadedConfig}
-              />
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <LoadGame/>
-            }
-          />
-          <Route
-            path="/footballfield"
-            element={
-              <FootballField/>
-            }
-          />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <div className="App">
+          <Routes>
+            <Route
+              path="/editor"
+              element={
+                <EduBallFileEditor
+                  loadedConfig={loadedConfig}
+                  setLoadedConfig={setLoadedConfig}
+                />
+              }
+            />
+            <Route path="/" element={<LoadGame />} />
+            <Route path="/footballfield" element={<FootballField />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

@@ -4,9 +4,7 @@ import { StudentList } from "./StudentList";
 import { produce } from "immer";
 import { toggleDirections } from "./interfaces";
 import { SaveTeamsButton } from "./SaveTeamsButton";
-import { Box, Paper, Button, Typography } from "@mui/material";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { AddStudent } from "./Editor/Students/AddStudent";
+import { Box, Paper, Typography } from "@mui/material";
 
 interface IProps {
   setTeamRed: Function;

@@ -6,7 +6,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { chooseFile } from "./fileLoaderFunctions";
 import { LoadQuestions } from "./LoadQuestions";
 import { Box } from "@mui/material";
 
@@ -32,6 +31,7 @@ export function LoadQuestionsButton({
         component="label"
         onClick={handleClickOpen}
         sx={{ width: "100%" }}
+        color={"secondary"}
       >
         <UploadFileIcon />
         &nbsp;&nbsp; Fragen Laden
@@ -64,7 +64,9 @@ export function LoadQuestionsButton({
         </DialogContent>
         <DialogActions>
           <Box padding={1}>
-            <Button onClick={handleClose}>Abbrechen</Button>
+            <Button onClick={handleClose} color={"secondary"}>
+              Abbrechen
+            </Button>
             &nbsp;&nbsp;&nbsp;
             <LoadQuestions
               setQuestions={setQuestions}

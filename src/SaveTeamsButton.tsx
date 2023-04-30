@@ -21,6 +21,7 @@ export function SaveTeamsButton({
       variant="contained"
       onClick={() => saveTeams(teamBlue, teamRed)}
       sx={sx}
+      color={"secondary"}
     >
       <SaveAltIcon />
       &nbsp;&nbsp; Teams Speichern

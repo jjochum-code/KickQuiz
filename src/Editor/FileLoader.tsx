@@ -24,7 +24,7 @@ export function FileLoader({
   }, [selectedFile, parseFileContent, finishedCallback]);
 
   return (
-    <Button variant="contained" component="label">
+    <Button variant="contained" component="label" color={"secondary"}>
       <FolderOpenIcon />
       &nbsp;&nbsp; {buttonText}
       <input
