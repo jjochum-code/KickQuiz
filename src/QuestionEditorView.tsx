@@ -81,6 +81,9 @@ export function QuestionEditorView({
             border: "none", // Remove border
             boxShadow: "none", // Remove box-shadow
             background: "transparent", // Set background to transparent
+            "&::before": {
+              backgroundColor: "transparent", // Remove nasty line bug
+            },
           }}
         >
           <AccordionSummary
@@ -118,7 +121,7 @@ export function QuestionEditorView({
               editAnswer={editAnswer}
             />
           </AccordionDetails>
-          <Box paddingX={2} paddingBottom={2} sx={{ minWidth: "100%" }}>
+          <Box paddingY={2} sx={{ minWidth: "100%" }}>
             <Button
               variant="contained"
               onClick={addQuestion}

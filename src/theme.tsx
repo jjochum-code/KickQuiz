@@ -14,7 +14,7 @@ declare module "@mui/material/styles" {
 }
 
 const basePalette = createTheme().palette;
-const darkerGrey = "#191919";
+const richBlack = "#010B13";
 
 const lightPalette = createTheme({
   palette: {
@@ -40,6 +40,10 @@ const lightPalette = createTheme({
 const darkPalette = createTheme({
   palette: {
     mode: "dark", // Set the theme mode to 'dark'
+    text: {
+      primary: "#b0afaf", // Light text color for dark theme
+      secondary: "#bdbdbd", // Light secondary text color for dark theme
+    },
     primary: {
       main: "#8bc34a",
     },
@@ -50,18 +54,14 @@ const darkPalette = createTheme({
       main: "#ff9800",
     },
     background: {
-      default: "#303030", // Dark background color
-      paper: "#303030", // Dark paper color
-    },
-    text: {
-      primary: "#ffffff", // Light text color for dark theme
-      secondary: "#bdbdbd", // Light secondary text color for dark theme
+      default: "#242424", // Dark background color
+      paper: "#242424", // Dark paper color
     },
     buttonInvertColor: {
-      main: darkerGrey,
+      main: richBlack,
     },
     borderColor: {
-      main: "#b0afaf",
+      main: "#5d5d5d",
     },
   },
 }).palette;

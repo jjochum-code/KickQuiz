@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Theme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
+import NightsStayIcon from "@mui/icons-material/NightsStay";
+import LightModeIcon from "@mui/icons-material/LightMode";
 import { lightTheme, darkTheme } from "./theme";
 
 interface IProps {
@@ -21,10 +21,10 @@ export function ThemeSetter({ children }: IProps): JSX.Element {
       <CssBaseline />
       <IconButton
         onClick={handleThemeToggle}
-        sx={{ position: "absolute", top: "6px", right: "6px" }}
+        sx={{ position: "fixed", top: "6px", right: "6px" }}
         color="primary"
       >
-        {theme === lightTheme ? <Brightness7Icon /> : <Brightness4Icon />}
+        {theme === lightTheme ? <LightModeIcon /> : <NightsStayIcon />}
       </IconButton>
       {children}
     </ThemeProvider>
