@@ -5,8 +5,7 @@ import { FootballField } from "./FootballField";
 import { LoadGame } from "./LoadGame";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { IConfig } from "./interfaces";
-import { theme } from "./theme";
-import { ThemeProvider } from "@mui/material";
+import { ThemeSetter } from "./ThemeSetter";
 
 const exampleConfig: IConfig = {
   students: {
@@ -33,7 +32,7 @@ function App() {
   const [loadedConfig, setLoadedConfig] = useState<IConfig>(exampleConfig);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeSetter>
       <BrowserRouter>
         <div className="App">
           <Routes>
@@ -51,7 +50,7 @@ function App() {
           </Routes>
         </div>
       </BrowserRouter>
-    </ThemeProvider>
+    </ThemeSetter>
   );
 }
 

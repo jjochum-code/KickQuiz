@@ -1,9 +1,24 @@
-import { createTheme, Theme } from "@mui/material/styles";
-import { Simulate } from "react-dom/test-utils";
-import playing = Simulate.playing;
+import { createTheme, Theme, Palette } from "@mui/material/styles";
 
-const palette = createTheme({
+declare module "@mui/material/styles" {
+  interface Palette {
+    // terrible name
+    buttonInvertColor: Palette["primary"];
+    borderColor: Palette["primary"];
+  }
+
+  interface PaletteOptions {
+    buttonInvertColor?: PaletteOptions["primary"];
+    borderColor?: PaletteOptions["primary"];
+  }
+}
+
+const basePalette = createTheme().palette;
+const darkerGrey = "#191919";
+
+const lightPalette = createTheme({
   palette: {
+    mode: "light",
     primary: {
       main: "#306900",
     },
@@ -13,106 +28,118 @@ const palette = createTheme({
     warning: {
       main: "#762200",
     },
+    buttonInvertColor: {
+      main: basePalette.common.white,
+    },
+    borderColor: {
+      main: "rgba(0, 0, 0, 0.12)",
+    },
   },
 }).palette;
 
-console.debug(palette);
+const darkPalette = createTheme({
+  palette: {
+    mode: "dark", // Set the theme mode to 'dark'
+    primary: {
+      main: "#8bc34a",
+    },
+    secondary: {
+      main: "#b0afaf",
+    },
+    warning: {
+      main: "#ff9800",
+    },
+    background: {
+      default: "#303030", // Dark background color
+      paper: "#303030", // Dark paper color
+    },
+    text: {
+      primary: "#ffffff", // Light text color for dark theme
+      secondary: "#bdbdbd", // Light secondary text color for dark theme
+    },
+    buttonInvertColor: {
+      main: darkerGrey,
+    },
+    borderColor: {
+      main: "#b0afaf",
+    },
+  },
+}).palette;
 
-const createMuiButtonOverrides = (theme: Theme) => ({
-  root: {
-    boxShadow: "none",
-  },
-  containedPrimary: {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
-    "&:hover": {
-      backgroundColor: theme.palette.common.white,
-      color: theme.palette.primary.main,
+const themeCreationFn = (activePalette: Palette) =>
+  createTheme({
+    palette: activePalette,
+    typography: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      fontSize: 14,
+      fontWeightLight: 300,
+      fontWeightRegular: 400,
+      fontWeightMedium: 500,
     },
-  },
-  containedSecondary: {
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.common.white,
-    "&:hover": {
-      backgroundColor: theme.palette.common.white,
-      color: theme.palette.secondary.main,
-    },
-  },
-  // Add more color variations as needed (e.g., warning, error, etc.)
-});
-
-export const theme = createTheme({
-  palette: palette,
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    fontSize: 14,
-    fontWeightLight: 300,
-    fontWeightRegular: 400,
-    fontWeightMedium: 500,
-  },
-  components: {
-    MuiPaper: {
-      defaultProps: {
-        elevation: 0,
-      },
-      styleOverrides: {
-        root: {
-          border: "2px solid",
-          boxShadow: "none",
-          borderColor: "rgba(0, 0, 0, 0.12)", // You can customize the border color
+    components: {
+      MuiPaper: {
+        defaultProps: {
+          elevation: 0,
         },
-      },
-    },
-    MuiInputBase: {
-      styleOverrides: {
-        input: {
-          fontSize: "18px", // Adjust the font size as needed
-          fontWeight: 500,
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          boxShadow: "none",
-          "&:hover": {
+        styleOverrides: {
+          root: {
+            border: "2px solid",
             boxShadow: "none",
+            borderColor: activePalette.borderColor.main, // You can customize the border color
           },
         },
-        containedPrimary: {
-          backgroundColor: palette.primary.main,
-          border: "2px solid",
-          borderColor: palette.primary.main,
-          color: palette.common.white,
-          "&:hover": {
-            backgroundColor: palette.common.white,
-            color: palette.primary.main,
+      },
+      MuiInputBase: {
+        styleOverrides: {
+          input: {
+            fontSize: "18px", // Adjust the font size as needed
+            fontWeight: 500,
           },
         },
-        containedSecondary: {
-          backgroundColor: palette.secondary.main,
-          border: "2px solid",
-          borderColor: palette.secondary.main,
-          color: palette.common.white,
-          "&:hover": {
-            backgroundColor: palette.common.white,
-            color: palette.secondary.main,
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            boxShadow: "none",
+            "&:hover": {
+              boxShadow: "none",
+            },
           },
-        },
-        containedWarning: {
-          backgroundColor: palette.common.white,
-          border: "2px solid",
-          borderColor: palette.common.white,
-          color: palette.warning.main,
-          "&:hover": {
-            backgroundColor: palette.warning.main,
-            color: palette.common.white,
+          containedPrimary: {
+            backgroundColor: activePalette.primary.main,
+            border: "2px solid",
+            borderColor: activePalette.primary.main,
+            color: activePalette.buttonInvertColor.main,
+            "&:hover": {
+              backgroundColor: activePalette.buttonInvertColor.main,
+              color: activePalette.primary.main,
+            },
           },
+          containedSecondary: {
+            backgroundColor: activePalette.secondary.main,
+            border: "2px solid",
+            borderColor: activePalette.secondary.main,
+            color: activePalette.buttonInvertColor.main,
+            "&:hover": {
+              backgroundColor: activePalette.buttonInvertColor.main,
+              color: activePalette.secondary.main,
+            },
+          },
+          containedWarning: {
+            backgroundColor: activePalette.buttonInvertColor.main,
+            border: "2px solid",
+            borderColor: activePalette.buttonInvertColor.main,
+            color: activePalette.warning.main,
+            "&:hover": {
+              backgroundColor: activePalette.warning.main,
+              color: activePalette.buttonInvertColor.main,
+            },
+          },
+          // Add more color variations as needed (e.g., warning, error, etc.)
         },
-        // Add more color variations as needed (e.g., warning, error, etc.)
       },
     },
-  },
-});
+  });
 
-console.debug(palette);
+export const lightTheme = themeCreationFn(lightPalette);
+export const darkTheme = themeCreationFn(darkPalette);

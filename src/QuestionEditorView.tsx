@@ -77,12 +77,17 @@ export function QuestionEditorView({
           disableGutters={true}
           expanded={isOpen}
           onChange={() => setIsOpen((prev) => !prev)}
+          sx={{
+            border: "none", // Remove border
+            boxShadow: "none", // Remove box-shadow
+            background: "transparent", // Set background to transparent
+          }}
         >
           <AccordionSummary
             //expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
-            sx={{ display: "flex" }}
+            sx={{ display: "flex", padding: 0 }}
           >
             <Button sx={{ flexGrow: 1 }} variant={"contained"}>
               <ArrowBackIosNewIcon
@@ -105,7 +110,7 @@ export function QuestionEditorView({
               </Box>
             </Button>
           </AccordionSummary>
-          <AccordionDetails>
+          <AccordionDetails sx={{ padding: 0 }}>
             <QuestionList
               questions={questions}
               deleteQuestion={deleteQuestion}
