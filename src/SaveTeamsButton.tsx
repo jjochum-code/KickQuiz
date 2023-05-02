@@ -4,10 +4,11 @@ import { Button } from "@mui/material";
 import fileDownload from "js-file-download";
 import { SxProps } from "@mui/system";
 import { Theme } from "@mui/material/styles";
+import { IStudentTeam } from "./interfaces";
 
 interface IProps {
-  teamBlue: string[];
-  teamRed: string[];
+  teamBlue: IStudentTeam;
+  teamRed: IStudentTeam;
   sx?: SxProps<Theme>;
 }
 
@@ -29,7 +30,7 @@ export function SaveTeamsButton({
   );
 }
 
-function saveTeams(teamBlue: string[], teamRed: string[]) {
+function saveTeams(teamBlue: IStudentTeam, teamRed: IStudentTeam) {
   let fileContent = "";
 
   fileContent += "Blaues Team:\n";

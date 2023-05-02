@@ -5,10 +5,11 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import { Button, TextField, Box, Typography } from "@mui/material";
 import { AddStudent } from "./Editor/Students/AddStudent";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { IStudentTeam } from "./interfaces";
 
 interface IStudentListProp {
   headline: string;
-  students: string[];
+  students: IStudentTeam;
   changeStudentName: Function;
   deleteStudent: Function;
   addStudent: () => void;
@@ -31,9 +32,12 @@ export function StudentList({
       <Typography variant={"h4"} component={"h3"} padding={1} paddingBottom={3}>
         {headline} ({students.length})
       </Typography>
-      <Box ref={animationParent}>
+      <Box
+      // TODO reinsert after adding decent keys
+      //ref={animationParent}
+      >
         {students.map((student, index) => (
-          <Box key={student} sx={{ display: "flex" }} padding={1}>
+          <Box key={index} sx={{ display: "flex" }} padding={1}>
             {position === "right" && (
               <>
                 <Button

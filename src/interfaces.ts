@@ -3,10 +3,12 @@ export interface IQuestions {
   a: string;
 }
 
+export type IStudentTeam = string[];
+
 export interface IConfig {
   students: {
-    red: string[];
-    blue: string[];
+    red: IStudentTeam;
+    blue: IStudentTeam;
   };
   questions: IQuestions[];
 }

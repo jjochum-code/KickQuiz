@@ -1,17 +1,17 @@
-import { IQuestions, IConfig } from "./interfaces";
+import { IQuestions, IConfig, IStudentTeam } from "./interfaces";
 import { dataIndex } from "./constStrings";
 
 export function locallySaveEditorData(
-  teamBlue: string[],
-  teamRed: string[],
+  teamBlue: IStudentTeam,
+  teamRed: IStudentTeam,
   questions: IQuestions[]
 ) {
   locallySaveData(mergeData(teamBlue, teamRed, questions));
 }
 
 export function mergeData(
-  teamBlue: string[],
-  teamRed: string[],
+  teamBlue: IStudentTeam,
+  teamRed: IStudentTeam,
   questions: IQuestions[]
 ): IConfig {
   return { students: { red: teamRed, blue: teamBlue }, questions };

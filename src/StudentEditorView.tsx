@@ -2,15 +2,15 @@ import React from "react";
 import { LoadTeamsButton } from "./LoadTeamsButton";
 import { StudentList } from "./StudentList";
 import { produce } from "immer";
-import { toggleDirections } from "./interfaces";
+import { toggleDirections, IStudentTeam } from "./interfaces";
 import { SaveTeamsButton } from "./SaveTeamsButton";
 import { Box, Paper, Typography } from "@mui/material";
 
 interface IProps {
   setTeamRed: Function;
   setTeamBlue: Function;
-  teamBlue: string[];
-  teamRed: string[];
+  teamBlue: IStudentTeam;
+  teamRed: IStudentTeam;
 }
 
 export function StudentEditorView({
@@ -21,8 +21,8 @@ export function StudentEditorView({
 }: IProps): JSX.Element {
   function deleteStudent(teamSetter: Function) {
     return function (index: number) {
-      teamSetter((baseState: string[]) => {
-        const nextState = produce(baseState, (draftState: string[]) => {
+      teamSetter((baseState: IStudentTeam) => {
+        const nextState = produce(baseState, (draftState: IStudentTeam) => {
           draftState.splice(index, 1);
         });
         return nextState;
@@ -32,7 +32,7 @@ export function StudentEditorView({
 
   function addStudent(teamSetter: Function) {
     return function (studentName: string = "") {
-      teamSetter((prev: string[]) => [...prev, studentName]);
+      teamSetter((prev: IStudentTeam) => [...prev, studentName]);
       console.debug(teamBlue);
     };
   }
@@ -41,7 +41,7 @@ export function StudentEditorView({
     return function (index: number) {
       function toggle(
         index: number,
-        fromTeam: string[],
+        fromTeam: IStudentTeam,
         fromTeamSetter: Function,
         toTeamSetter: Function
       ) {
@@ -64,16 +64,16 @@ export function StudentEditorView({
   //// ---------------------------------------------------------------------------------------------
   //// TODO deduplicate and rename
   function changeTeamBlue(studentname: string, index: number) {
-    setTeamBlue((baseState: string[]) => {
-      const nextState = produce(baseState, (draftState: string[]) => {
+    setTeamBlue((baseState: IStudentTeam) => {
+      const nextState = produce(baseState, (draftState: IStudentTeam) => {
         draftState[index] = studentname;
       });
       return nextState;
     });
   }
   function changeTeamRed(studentname: string, index: number) {
-    setTeamRed((baseState: string[]) => {
-      const nextState = produce(baseState, (draftState: string[]) => {
+    setTeamRed((baseState: IStudentTeam) => {
+      const nextState = produce(baseState, (draftState: IStudentTeam) => {
         draftState[index] = studentname;
       });
       return nextState;
@@ -88,6 +88,8 @@ export function StudentEditorView({
         Todos
       </Typography>
       <ul>
+        <li>a) add decent keys to students and questions</li>
+        <li>b) add auto animate</li>
         <li>move components to appropriate folders</li>
         <li>animate add student</li>
         <li>animate remove student</li>

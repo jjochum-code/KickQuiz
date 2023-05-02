@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { IConfig, IQuestions } from "./interfaces";
+import { IConfig, IQuestions, IStudentTeam } from "./interfaces";
 import { Container } from "@mui/material";
 import {
   locallyLoadData,
@@ -19,8 +19,10 @@ export function EduBallFileEditor({
   const [questions, setQuestions] = useState<IQuestions[]>(
     loadedConfig.questions
   );
-  const [teamRed, setTeamRed] = useState<string[]>(loadedConfig.students.red);
-  const [teamBlue, setTeamBlue] = useState<string[]>(
+  const [teamRed, setTeamRed] = useState<IStudentTeam>(
+    loadedConfig.students.red
+  );
+  const [teamBlue, setTeamBlue] = useState<IStudentTeam>(
     loadedConfig.students.blue
   );
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);

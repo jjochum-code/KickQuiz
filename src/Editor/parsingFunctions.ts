@@ -1,6 +1,8 @@
+import { IStudentTeam } from "../interfaces";
+
 export function parseConfigPlayers(input: string): {
-  blueTeam: string[];
-  redTeam: string[];
+  blueTeam: IStudentTeam;
+  redTeam: IStudentTeam;
 } {
   const blueTeamRegex =
     /bl+a+u+e+s+ +t+e+a+m+:(?<bt>[\s\S]*?)(?=ro+t+e+s+ +t+e+a+m+:|$)/i;
