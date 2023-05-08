@@ -91,14 +91,24 @@ export function StudentEditorView({
         <li>a) add decent keys to students and questions</li>
         <li>b) add auto animate</li>
         <li>move components to appropriate folders</li>
-        <li>animate add student</li>
-        <li>animate remove student</li>
-        <li>animate remove question</li>
+        <li>store dark mode in local storage</li>
         <li>check components, refactor if necessary</li>
         <li>refactor changeTeamBlue and same for red</li>
-        <li>remove paper behind questions</li>
-        <li>move add student button outside of paper</li>
-        <li>make headlines bold</li>
+        <li>
+          <Typography sx={{ textDecoration: "line-through" }}>
+            remove paper behind questions
+          </Typography>
+        </li>
+        <li>
+          <Typography sx={{ textDecoration: "line-through" }}>
+            move add student button outside of paper
+          </Typography>
+        </li>
+        <li>
+          <Typography sx={{ textDecoration: "line-through" }}>
+            make headlines bold
+          </Typography>
+        </li>
       </ul>
       <br />
       <br />
@@ -128,36 +138,28 @@ export function StudentEditorView({
           sx={{ flexGrow: 1, flexBasis: 0 }}
         />
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Box paddingRight={1} sx={{ flexGrow: 1, flexBasis: 1 }}>
-          <Paper>
-            <Box padding={1}>
-              <StudentList
-                headline="Blaues Team"
-                students={teamBlue}
-                changeStudentName={changeTeamBlue}
-                deleteStudent={deleteStudent(setTeamBlue)}
-                addStudent={addStudent(setTeamBlue)}
-                toggleStudentTeam={toggleStudentTeam("fromBlueToRed")}
-                position="left"
-              />
-            </Box>
-          </Paper>
+      <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
+        <Box sx={{ flexGrow: 1, flexBasis: 1 }}>
+          <StudentList
+            headline="Blaues Team"
+            students={teamBlue}
+            changeStudentName={changeTeamBlue}
+            deleteStudent={deleteStudent(setTeamBlue)}
+            addStudent={addStudent(setTeamBlue)}
+            toggleStudentTeam={toggleStudentTeam("fromBlueToRed")}
+            position="left"
+          />
         </Box>
-        <Box paddingLeft={1} sx={{ flexGrow: 1, flexBasis: 1 }}>
-          <Paper>
-            <Box padding={1}>
-              <StudentList
-                headline="Rotes Team"
-                students={teamRed}
-                changeStudentName={changeTeamRed}
-                deleteStudent={deleteStudent(setTeamRed)}
-                toggleStudentTeam={toggleStudentTeam("fromRedToBlue")}
-                addStudent={addStudent(setTeamRed)}
-                position="right"
-              />
-            </Box>
-          </Paper>
+        <Box sx={{ flexGrow: 1, flexBasis: 1 }}>
+          <StudentList
+            headline="Rotes Team"
+            students={teamRed}
+            changeStudentName={changeTeamRed}
+            deleteStudent={deleteStudent(setTeamRed)}
+            toggleStudentTeam={toggleStudentTeam("fromRedToBlue")}
+            addStudent={addStudent(setTeamRed)}
+            position="right"
+          />
         </Box>
       </Box>
     </>

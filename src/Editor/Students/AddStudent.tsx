@@ -8,7 +8,7 @@ interface IProps {
 
 export function AddStudent({ onClickCallBack }: IProps): JSX.Element {
   return (
-    <Box padding={1}>
+    <Box paddingTop={2}>
       <Button
         onClick={onClickCallBack}
         variant="contained"

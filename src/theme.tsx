@@ -72,9 +72,28 @@ const themeCreationFn = (activePalette: Palette) =>
     typography: {
       fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
       fontSize: 14,
-      fontWeightLight: 300,
-      fontWeightRegular: 400,
-      fontWeightMedium: 500,
+      // fontWeightLight: 300,
+      // fontWeightRegular: 400,
+      // fontWeightMedium: 500,
+      // fontWeightBold: 700,
+      h1: {
+        fontWeight: 500, // Set the font weight for the h1
+      },
+      h2: {
+        fontWeight: 500, // Set the font weight for the h2
+      },
+      h3: {
+        fontWeight: 500, // Set the font weight for the h3
+      },
+      h4: {
+        fontWeight: 500, // Set the font weight for the h4
+      },
+      h5: {
+        fontWeight: 500, // Set the font weight for the h5
+      },
+      h6: {
+        fontWeight: 500, // Set the font weight for the h6
+      },
     },
     components: {
       MuiPaper: {
