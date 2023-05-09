@@ -6,7 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
-import { LoadQuestions } from "./LoadQuestions";
+import { LoadQuestions } from "./Editor/Questions/LoadQuestions";
 import { Box } from "@mui/material";
 
 export function LoadQuestionsButton({

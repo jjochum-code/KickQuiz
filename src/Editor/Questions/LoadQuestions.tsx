@@ -1,7 +1,5 @@
 import React, { useCallback } from "react";
-import { FileLoader } from "./Editor/FileLoader";
-
-//// TODO LoadTeams and LoadQuestions is basically the same, abstract
+import { FileLoader } from "../FileLoader";
 
 interface IProps {
   setQuestions: Function;

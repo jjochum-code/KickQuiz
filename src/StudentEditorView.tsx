@@ -4,7 +4,8 @@ import { StudentList } from "./StudentList";
 import { produce } from "immer";
 import { toggleDirections, IStudentTeam } from "./interfaces";
 import { SaveTeamsButton } from "./SaveTeamsButton";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { Todos } from "./Todos";
 
 interface IProps {
   setTeamRed: Function;
@@ -84,32 +85,7 @@ export function StudentEditorView({
   return (
     <>
       <br />
-      <Typography variant="h4" component="h4">
-        Todos
-      </Typography>
-      <ul>
-        <li>a) add decent keys to students and questions</li>
-        <li>b) add auto animate</li>
-        <li>move components to appropriate folders</li>
-        <li>store dark mode in local storage</li>
-        <li>check components, refactor if necessary</li>
-        <li>refactor changeTeamBlue and same for red</li>
-        <li>
-          <Typography sx={{ textDecoration: "line-through" }}>
-            remove paper behind questions
-          </Typography>
-        </li>
-        <li>
-          <Typography sx={{ textDecoration: "line-through" }}>
-            move add student button outside of paper
-          </Typography>
-        </li>
-        <li>
-          <Typography sx={{ textDecoration: "line-through" }}>
-            make headlines bold
-          </Typography>
-        </li>
-      </ul>
+      <Todos />
       <br />
       <br />
       <hr />

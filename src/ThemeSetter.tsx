@@ -1,20 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CssBaseline, ThemeProvider, alpha } from "@mui/material";
 import { Theme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import NightsStayIcon from "@mui/icons-material/NightsStay";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { lightTheme, darkTheme } from "./theme";
+import { dataIndex } from "./constStrings";
 
 interface IProps {
   children: JSX.Element;
 }
 
 export function ThemeSetter({ children }: IProps): JSX.Element {
-  const [theme, setTheme] = useState<Theme>(lightTheme);
+  const [theme, setTheme] = useState<Theme | undefined>();
+
+  // load the theme setting from local storage or set light theme if the local storage is empty
+  useEffect(() => {
+    const themeSetting = localStorage.getItem("themeSetting");
+    if (themeSetting == null) {
+      setTheme(lightTheme);
+      return;
+    }
+    switch (themeSetting) {
+      case "light":
+        setTheme(lightTheme);
+        return;
+      case "dark":
+        setTheme(darkTheme);
+        return;
+      default:
+        setTheme(lightTheme);
+        console.warn(
+          `Unknown value \`${themeSetting}\` stored for the theme setting.`
+        );
+        return;
+    }
+  }, []);
   const handleThemeToggle = () => {
-    setTheme((prev) => (prev === lightTheme ? darkTheme : lightTheme));
+    setTheme((prev) => {
+      const selectedTheme = prev === lightTheme ? darkTheme : lightTheme;
+      localStorage.setItem(
+        "themeSetting",
+        selectedTheme === lightTheme ? "light" : "dark"
+      );
+      return selectedTheme;
+    });
   };
+
+  // the theme is not set yet, so we prevent rendering, otherwise it might cause flickering
+  if (theme == null) {
+    return <></>;
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -37,7 +73,7 @@ export function ThemeSetter({ children }: IProps): JSX.Element {
             `color ${theme.transitions.duration.complex}ms ${theme.transitions.easing.easeInOut}`,
           "&:hover": {
             backgroundColor: "primary.main", // Set the background color on hover
-            color: "common.black",
+            color: (theme) => theme.palette.buttonInvertColor.main,
           },
         }}
         color="primary"

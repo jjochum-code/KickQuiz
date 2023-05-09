@@ -62,7 +62,7 @@ export function QuestionEditorView({
       <br />
       <div>
         <Typography variant="h2" component="h2">
-          Fragen und Antworten
+          Fragen und Antworten <small>({questions.length})</small>
         </Typography>
         <br />
         <Box sx={{ display: "flex", gap: 2 }} paddingBottom={2}>

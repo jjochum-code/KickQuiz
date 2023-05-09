@@ -38,7 +38,7 @@ export function StudentList({
             padding={1}
             paddingBottom={3}
           >
-            {headline} ({students.length})
+            {headline} <small>({students.length})</small>
           </Typography>
           <Box
           // TODO reinsert after adding decent keys
